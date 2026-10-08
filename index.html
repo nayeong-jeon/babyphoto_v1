@@ -401,6 +401,8 @@
     const totalPrice = document.querySelector("#total-price");
     const genderInputs = document.querySelectorAll('input[name="baby-gender"]');
     const hanbokStyleWrap = document.querySelector("#hanbok-style-wrap");
+    const hanbokStyleInput = document.querySelector("#hanbok-style");
+    const saekdongOption = hanbokStyleInput.querySelector('option[value="saekdong"]');
     const selectedFiles = [];
     let selectedTheme = "달항아리";
     let selectedGender = "";
@@ -428,7 +430,7 @@
         "photo-tips-title": "결과가 잘 나오는 사진 팁", "photo-tip-face": "얼굴이 크게 나온 사진",
         "photo-tip-light": "밝은 자연광 사진", "photo-tip-clear": "눈과 얼굴이 가려지지 않은 사진", "photo-tip-steady": "흔들리지 않은 선명한 사진",
         "gender-label": "2. 아기 성별을 선택해 주세요", "gender-group": "아기 성별 선택", "gender-boy": "남아", "gender-girl": "여아",
-        "hanbok-style-label": "달항아리 한복 스타일", "hanbok-saekdong": "색동", "hanbok-pastel": "파스텔",
+        "hanbok-style-label": "달항아리 한복 스타일", "hanbok-saekdong": "색동 (남아)", "hanbok-pastel": "파스텔",
         "prompt-label": "3. 원하는 사진을 설명해 주세요", "prompt-placeholder": "예: 아기가 따뜻한 햇살이 드는 정원에서 아이보리색 한복을 입고 앉아 있는 돌사진. 부드러운 크림색 배경, 자연광, 포근하고 클래식한 분위기.",
         "prompt-help": "원하는 옷, 배경, 색감, 분위기를 적어주세요. 최대 1,000자.", "theme-label": "4. 참고 스타일 (선택)",
         "theme-group": "돌사진 스타일 선택", "theme-moonjar": "달항아리", "theme-garden": "햇살 정원", "theme-story": "동화 속 주인공",
@@ -467,7 +469,7 @@
         "photo-tip-face": "Your baby's face clearly in frame", "photo-tip-light": "Bright, natural light",
         "photo-tip-clear": "Eyes and face fully visible", "photo-tip-steady": "A sharp image with no blur",
         "gender-label": "2. Choose your baby's gender", "gender-group": "Choose your baby's gender", "gender-boy": "Boy", "gender-girl": "Girl",
-        "hanbok-style-label": "Moon Jar hanbok style", "hanbok-saekdong": "Saekdong (rainbow-striped sleeves)", "hanbok-pastel": "Pastel",
+        "hanbok-style-label": "Moon Jar hanbok style", "hanbok-saekdong": "Saekdong (boy)", "hanbok-pastel": "Pastel",
         "prompt-label": "3. Describe the portrait you have in mind", "prompt-placeholder": "For example: A sweet first-birthday portrait of my baby in a soft ivory outfit, sitting in a sunlit garden. Warm natural light, creamy colors, a timeless editorial feel.",
         "prompt-help": "Share the outfit, setting, colors, and mood you'd love. Up to 1,000 characters.", "theme-label": "4. Pick an optional style direction",
         "theme-group": "Choose an optional portrait style", "theme-moonjar": "Moon Jar", "theme-garden": "Garden sunshine", "theme-story": "Storybook",
@@ -518,7 +520,14 @@
     }
 
     function updateHanbokStyleVisibility() {
-      hanbokStyleWrap.hidden = !(selectedGender === "boy" && selectedTheme === "달항아리");
+      const isMoonJar = selectedTheme === "달항아리";
+      const isGirlMoonJar = selectedGender === "girl" && isMoonJar;
+      hanbokStyleWrap.hidden = !(selectedGender && isMoonJar);
+      saekdongOption.hidden = selectedGender !== "boy";
+      saekdongOption.disabled = selectedGender !== "boy";
+      if (isGirlMoonJar && hanbokStyleInput.value !== "pastel") {
+        hanbokStyleInput.value = "pastel";
+      }
     }
 
     function renderPhotos() {
@@ -612,6 +621,7 @@
         updateHanbokStyleVisibility();
       });
     });
+    hanbokStyleInput.addEventListener("change", () => result.classList.remove("visible"));
 
     document.querySelectorAll("[data-language]").forEach((button) => {
       button.addEventListener("click", () => translatePage(button.dataset.language));
@@ -648,10 +658,13 @@
       errorMessage.textContent = "";
       const price = (Number(quantityInput.value) * 1.99).toFixed(2);
       resultTitle.textContent = strings["order-title"](quantityInput.value, price);
+      const selectedStyle = selectedTheme === "달항아리"
+        ? `${strings.themes[selectedTheme]} (${selectedGender === "girl" ? strings["hanbok-pastel"] : strings[`hanbok-${hanbokStyleInput.value}`]})`
+        : strings.themes[selectedTheme];
       resultMessage.textContent = strings["order-message"](
         selectedFiles.length,
         strings.genders[selectedGender],
-        strings.themes[selectedTheme],
+        selectedStyle,
         promptInput.value.trim()
       );
       result.classList.add("visible");
