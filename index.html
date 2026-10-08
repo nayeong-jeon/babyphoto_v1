@@ -26,9 +26,11 @@
       margin: 0;
       color: var(--ink);
       background: var(--cream);
-      font-family: "Noto Sans KR", sans-serif;
+      font-family: "Noto Sans KR", "Avenir Next", "Segoe UI", sans-serif;
       -webkit-font-smoothing: antialiased;
     }
+    :lang(en) h1, :lang(en) h2 { font-family: "DM Serif Display", Georgia, serif; font-weight: 400; letter-spacing: -.035em; }
+    :lang(en) .brand { letter-spacing: -.04em; }
     button, input { font: inherit; }
     button { cursor: pointer; }
     a { color: inherit; text-decoration: none; }
@@ -41,6 +43,10 @@
       border-bottom: 1px solid rgba(40, 53, 46, .08);
     }
     .nav { display: flex; align-items: center; justify-content: space-between; }
+    .nav-end { display: flex; align-items: center; gap: 16px; }
+    .language-switch { display: flex; gap: 3px; padding: 3px; border: 1px solid var(--line); border-radius: 999px; background: #fffefa; }
+    .language-switch button { border: 0; border-radius: 999px; padding: 7px 9px; color: #747b73; background: transparent; font-size: 10px; font-weight: 700; }
+    .language-switch button[aria-pressed="true"] { color: white; background: var(--green); }
     .brand { display: inline-flex; align-items: center; gap: 10px; font-size: 21px; font-weight: 800; letter-spacing: -.06em; }
     .brand-mark {
       width: 32px; height: 32px; display: grid; place-items: center;
@@ -124,14 +130,38 @@
       transition: border .2s, background .2s; text-align: center; overflow: hidden;
     }
     .upload-box.dragging { border-color: var(--green); background: #f0f4ec; }
-    .upload-box.has-image { min-height: 230px; }
+    .upload-box.has-image { min-height: 120px; }
     .upload-icon { font-size: 25px; margin-bottom: 9px; }
     .upload-title { font-size: 12px; font-weight: 700; }
     .upload-help { margin-top: 5px; color: #929890; font-size: 10px; }
     .upload-box input { position: absolute; inset: 0; width: 100%; height: 100%; cursor: pointer; opacity: 0; }
-    .upload-preview { display: none; width: 100%; height: 230px; object-fit: contain; background: #f2f0e9; }
-    .upload-box.has-image .upload-preview { display: block; }
-    .upload-box.has-image .upload-prompt { display: none; }
+    .photo-notice { margin-top: 14px; padding: 15px 17px; border: 1px solid #ece5d7; border-radius: 13px; background: #f8f5ed; color: #626b62; font-size: 11px; line-height: 1.8; }
+    .photo-notice h3 { margin: 0 0 5px; color: var(--ink); font-size: 12px; }
+    .photo-notice p { margin: 0; }
+    .photo-notice strong { color: var(--green-dark); }
+    .photo-tips-title { display: block; margin-top: 10px; font-weight: 800; }
+    .photo-tips { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 3px 12px; margin: 4px 0 0; padding: 0; list-style: none; }
+    .photo-tips li::before { content: "✓"; margin-right: 6px; color: var(--green); font-weight: 800; }
+    .gender-options { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; }
+    .gender-option { display: flex; align-items: center; gap: 9px; padding: 12px 14px; border: 1px solid var(--line); border-radius: 11px; color: #626b63; background: #fff; font-size: 12px; cursor: pointer; }
+    .gender-option:has(input:checked) { border-color: var(--green); background: #f3f6f0; color: var(--green-dark); }
+    .gender-option input { accent-color: var(--green); }
+    .hanbok-style { margin-top: 14px; }
+    .hanbok-style select { width: 100%; padding: 10px 12px; border: 1px solid var(--line); border-radius: 10px; color: var(--ink); background: #fff; }
+    .photo-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; margin-top: 10px; }
+    .photo-card { position: relative; min-width: 0; overflow: hidden; border-radius: 11px; background: #f2f0e9; }
+    .photo-card img { display: block; width: 100%; height: 112px; object-fit: cover; }
+    .photo-name { overflow: hidden; padding: 7px 8px; color: #666f66; font-size: 9px; text-overflow: ellipsis; white-space: nowrap; }
+    .photo-remove { position: absolute; top: 5px; right: 5px; width: 24px; height: 24px; border: 0; border-radius: 50%; background: #28352ecc; color: white; font-size: 15px; line-height: 1; }
+    .field-help { margin: 6px 0 0; color: #929890; font-size: 10px; }
+    .prompt-field { width: 100%; min-height: 110px; resize: vertical; border: 1px solid var(--line); border-radius: 12px; padding: 12px 13px; color: var(--ink); background: #fff; font-size: 12px; line-height: 1.7; }
+    .prompt-field:focus { outline: 2px solid #55745f66; border-color: var(--green); }
+    .price-row { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-top: 22px; padding: 14px 0; border-top: 1px solid var(--line); }
+    .quantity-control { display: flex; align-items: center; gap: 9px; color: #626b63; font-size: 11px; }
+    .quantity-control select { padding: 7px 25px 7px 9px; border: 1px solid var(--line); border-radius: 8px; color: var(--ink); background: white; }
+    .total-price { text-align: right; }
+    .total-price small { display: block; color: #899087; font-size: 10px; }
+    .total-price strong { color: var(--green-dark); font-size: 18px; }
     .upload-error { min-height: 18px; margin: 7px 0 0; color: #aa5145; font-size: 11px; }
     .theme-label { margin-top: 22px; }
     .themes { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
@@ -164,6 +194,8 @@
       .wrap { width: min(100% - 36px, 540px); }
       header { height: 68px; }
       .nav-links { gap: 0; }
+      .nav-end { gap: 8px; }
+      .language-switch button { padding: 7px 8px; }
       .nav-links a:not(.nav-cta) { display: none; }
       .nav-cta { padding: 10px 15px; font-size: 11px; }
       .hero { padding: 48px 0 52px; }
@@ -178,6 +210,7 @@
       .step-card h3 { margin: 13px 0 5px; }
       .studio { grid-template-columns: 1fr; gap: 25px; }
       .studio-panel { padding: 19px; }
+      .photo-tips { grid-template-columns: 1fr; }
       .footer-inner { flex-direction: column; gap: 8px; }
     }
     @media (prefers-reduced-motion: reduce) {
@@ -188,13 +221,19 @@
 <body>
   <header>
     <nav class="wrap nav" aria-label="주 메뉴">
-      <a class="brand" href="#" aria-label="첫봄 홈">
-        <span class="brand-mark" aria-hidden="true">✿</span> 첫봄
+      <a class="brand" href="#" aria-label="첫봄 홈" data-i18n-aria="brand-home">
+        <span class="brand-mark" aria-hidden="true">✿</span> <span data-i18n="brand-name">첫봄</span>
       </a>
+      <div class="nav-end">
       <div class="nav-links">
-        <a href="#how">이용 방법</a>
-        <a href="#studio">사진 만들기</a>
-        <a class="nav-cta" href="#studio">무료로 시작하기 <span aria-hidden="true">→</span></a>
+        <a href="#how" data-i18n="nav-how">이용 방법</a>
+        <a href="#studio" data-i18n="nav-studio">사진 만들기</a>
+        <a class="nav-cta" href="#studio"><span data-i18n="nav-cta">무료로 시작하기</span> <span aria-hidden="true">→</span></a>
+      </div>
+      <div class="language-switch" role="group" aria-label="언어 선택" data-i18n-aria="language-label">
+        <button type="button" data-language="ko" aria-pressed="true">한국어</button>
+        <button type="button" data-language="en" aria-pressed="false">EN</button>
+      </div>
       </div>
     </nav>
   </header>
@@ -204,14 +243,14 @@
       <div class="wrap hero-grid">
         <div>
           <div class="eyebrow"><span></span> A LITTLE MAGIC FOR THEIR FIRST YEAR</div>
-          <h1>우리 아기의<br><em>첫 번째 생일</em>,<br>더 특별하게</h1>
-          <p class="hero-copy">아기의 사진 한 장이면 충분해요.<br>포근하고 사랑스러운 돌 기념사진을 만들어 드릴게요.</p>
+          <h1 data-i18n="hero-title">우리 아기의<br><em>첫 번째 생일</em>,<br>더 특별하게</h1>
+          <p class="hero-copy" data-i18n="hero-copy">아기 얼굴 사진을 최대 세 장 올리고 원하는 프롬프트를 적어주세요.<br>우리 아기만을 위한 특별한 돌 기념사진을 준비해 보세요.</p>
           <div class="hero-actions">
-            <a class="button-primary" href="#studio">우리 아기 사진으로 만들기 <span aria-hidden="true">→</span></a>
+            <a class="button-primary" href="#studio"><span data-i18n="hero-button">우리 아기 사진으로 만들기</span> <span aria-hidden="true">→</span></a>
           </div>
-          <div class="trust-line"><b aria-label="별점 5점">★★★★★</b> 소중한 첫 순간을 오래 간직하도록</div>
+          <div class="trust-line"><b aria-label="별점 5점" data-i18n-aria="rating-label">★★★★★</b> <span data-i18n="trust">소중한 첫 순간을 오래 간직하도록</span></div>
         </div>
-        <div class="hero-art" role="img" aria-label="포근한 초록빛 정원에서 미소 짓는 아기의 일러스트">
+        <div class="hero-art" role="img" aria-label="포근한 초록빛 정원에서 미소 짓는 아기의 일러스트" data-i18n-aria="hero-art">
           <div class="art-backdrop">
             <div class="sun"></div><div class="sprig"></div><div class="flower" aria-hidden="true">✿</div>
             <div class="portrait" aria-hidden="true">
@@ -219,7 +258,7 @@
               <div class="eye left"></div><div class="eye right"></div><div class="smile"></div><div class="bib"></div>
             </div>
           </div>
-          <div class="floating-card"><strong><span class="sparkle">✦</span>우리 아기의 첫 번째 봄</strong>세상에 하나뿐인 기념사진</div>
+          <div class="floating-card"><strong><span class="sparkle">✦</span><span data-i18n="floating-title">우리 아기의 첫 번째 봄</span></strong><span data-i18n="floating-copy">세상에 하나뿐인 기념사진</span></div>
         </div>
       </div>
     </section>
@@ -228,24 +267,24 @@
       <div class="wrap">
         <div class="section-heading">
           <div class="eyebrow">HOW IT WORKS</div>
-          <h2>간단하게, 세 단계면 돼요</h2>
-          <p class="section-subtitle">복잡한 준비 없이 소중한 순간을 남겨보세요.</p>
+          <h2 data-i18n="steps-title">간단하게, 세 단계면 돼요</h2>
+          <p class="section-subtitle" data-i18n="steps-copy">아기 사진과 원하는 설명을 보내 특별한 순간을 준비해 보세요.</p>
         </div>
         <div class="steps">
           <article class="step-card">
             <div class="step-number">01</div>
-            <h3>아기 사진을 올려주세요</h3>
-            <p>밝고 얼굴이 잘 보이는 사진 한 장이면 충분해요.</p>
+            <h3 data-i18n="step1-title">아기 사진을 올려주세요</h3>
+            <p data-i18n="step1-copy">아기 얼굴이 잘 보이는 사진을 최대 세 장까지 올려주세요.</p>
           </article>
           <article class="step-card">
             <div class="step-number">02</div>
-            <h3>마음에 드는 분위기를 골라요</h3>
-            <p>전통 한복부터 포근한 정원까지, 우리 아기에게 어울리는 스타일을 선택해요.</p>
+            <h3 data-i18n="step2-title">마음에 드는 분위기를 골라요</h3>
+            <p data-i18n="step2-copy">원하는 장면과 옷차림, 배경을 프롬프트로 설명해 주세요.</p>
           </article>
           <article class="step-card">
             <div class="step-number">03</div>
-            <h3>특별한 돌사진을 간직해요</h3>
-            <p>완성된 사진을 가족과 나누고 첫 번째 생일을 기념해 보세요.</p>
+            <h3 data-i18n="step3-title">특별한 돌사진을 간직해요</h3>
+            <p data-i18n="step3-copy">한 장당 $1.99로 필요한 수량을 선택하는 서비스예요.</p>
           </article>
         </div>
       </div>
@@ -255,42 +294,79 @@
       <div class="wrap studio">
         <div class="studio-intro">
           <div class="eyebrow">MAKE A MEMORY</div>
-          <h2>우리 아기만의<br>돌사진 만들기</h2>
-          <p>사진을 선택하고 원하는 분위기를 골라주세요. 먼저 어떤 모습일지 미리보기로 확인할 수 있어요.</p>
-          <div class="privacy-note"><b>🔒 사진은 소중하게 다룰게요.</b><br>이 시안에서는 사진이 현재 브라우저 안에서만 미리보기로 표시돼요. 서버로 전송되지 않습니다.</div>
+          <h2 data-i18n="studio-title">우리 아기만의<br>돌사진 만들기</h2>
+          <p data-i18n="studio-copy">아기 얼굴 사진을 최대 세 장 올리고, 원하는 결과를 프롬프트로 자세히 적어주세요.</p>
+          <div class="privacy-note"><b data-i18n="privacy-title">🔒 사진은 소중하게 다룰게요.</b><br><span data-i18n="privacy-copy">현재 데모에서는 사진과 프롬프트가 브라우저 밖으로 전송되지 않아요. 실제 서비스 전에는 안전한 업로드, 보관·삭제 정책을 마련해야 합니다.</span></div>
         </div>
         <div class="studio-panel">
-          <label class="field-label" for="baby-photo">1. 아기 사진 올리기</label>
+          <label class="field-label" for="baby-photo"><span data-i18n="upload-label">1. 아기 얼굴 사진 올리기</span> <span style="font-weight:400;color:#899087" data-i18n="max-photos">최대 3장</span></label>
           <div class="upload-box" id="upload-box">
-            <img class="upload-preview" id="upload-preview" alt="선택한 아기 사진 미리보기">
             <div class="upload-prompt">
               <div class="upload-icon" aria-hidden="true">☁</div>
-              <div class="upload-title">사진을 끌어다 놓거나 눌러서 선택해 주세요</div>
-              <div class="upload-help">JPG, PNG, WEBP · 최대 15MB</div>
+              <div class="upload-title" data-i18n="upload-title">사진을 끌어다 놓거나 눌러서 최대 3장 선택</div>
+              <div class="upload-help" data-i18n="upload-help">JPG, PNG, WEBP · 장당 최대 15MB</div>
             </div>
-            <input id="baby-photo" type="file" accept="image/jpeg,image/png,image/webp" aria-label="아기 사진 선택">
+            <input id="baby-photo" type="file" accept="image/jpeg,image/png,image/webp" aria-label="아기 사진 선택" data-i18n-aria="photo-input" multiple>
           </div>
+          <aside class="photo-notice" aria-label="사진 생성 주의사항" data-i18n-aria="notice-label">
+            <h3 data-i18n="notice-title">사진 생성 전 확인해 주세요</h3>
+            <p data-i18n="notice-variation">AI 이미지는 생성할 때마다 결과가 조금씩 달라질 수 있어요. 결과가 마음에 들지 않으면 요청사항을 더 적어 원하는 방향으로 조정해 보세요.</p>
+            <p data-i18n="notice-frontal"><strong>사진 구도와 표정에 따라 결과가 달라질 수 있어 정면 사진을 추천해요.</strong></p>
+            <span class="photo-tips-title" data-i18n="photo-tips-title">결과가 잘 나오는 사진 팁</span>
+            <ul class="photo-tips">
+              <li data-i18n="photo-tip-face">얼굴이 크게 나온 사진</li>
+              <li data-i18n="photo-tip-light">밝은 자연광 사진</li>
+              <li data-i18n="photo-tip-clear">눈과 얼굴이 가려지지 않은 사진</li>
+              <li data-i18n="photo-tip-steady">흔들리지 않은 선명한 사진</li>
+            </ul>
+          </aside>
+          <div class="photo-grid" id="photo-grid" aria-label="선택한 사진" data-i18n-aria="photo-grid"></div>
           <p class="upload-error" id="upload-error" role="status" aria-live="polite"></p>
 
-          <span class="field-label theme-label">2. 사진 분위기 고르기</span>
-          <div class="themes" role="group" aria-label="돌사진 스타일 선택">
-            <button class="theme-option" type="button" data-theme="전통 한복" aria-pressed="true">
-              <span class="theme-art traditional" aria-hidden="true">🌸</span><span class="theme-name">전통 한복</span>
+          <span class="field-label theme-label" data-i18n="gender-label">2. 아기 성별을 선택해 주세요</span>
+          <div class="gender-options" role="radiogroup" aria-label="아기 성별 선택" data-i18n-aria="gender-group">
+            <label class="gender-option"><input type="radio" name="baby-gender" value="boy"><span data-i18n="gender-boy">남아</span></label>
+            <label class="gender-option"><input type="radio" name="baby-gender" value="girl"><span data-i18n="gender-girl">여아</span></label>
+          </div>
+          <div class="hanbok-style" id="hanbok-style-wrap" hidden>
+            <label class="field-label" for="hanbok-style" data-i18n="hanbok-style-label">달항아리 한복 스타일</label>
+            <select id="hanbok-style" aria-label="한복 스타일" data-i18n-aria="hanbok-style-label">
+              <option value="saekdong" data-i18n="hanbok-saekdong">색동</option>
+              <option value="pastel" data-i18n="hanbok-pastel">파스텔</option>
+            </select>
+          </div>
+          <label class="field-label theme-label" for="prompt" data-i18n="prompt-label">3. 원하는 사진을 설명해 주세요</label>
+          <textarea class="prompt-field" id="prompt" maxlength="1000" placeholder="예: 아기가 따뜻한 햇살이 드는 정원에서 아이보리색 한복을 입고 앉아 있는 돌사진. 부드러운 크림색 배경, 자연광, 포근하고 클래식한 분위기." data-i18n-placeholder="prompt-placeholder"></textarea>
+          <p class="field-help" data-i18n="prompt-help">원하는 옷, 배경, 색감, 분위기를 적어주세요. 최대 1,000자.</p>
+
+          <span class="field-label theme-label" data-i18n="theme-label">4. 참고 스타일 (선택)</span>
+          <div class="themes" role="group" aria-label="돌사진 스타일 선택" data-i18n-aria="theme-group">
+            <button class="theme-option" type="button" data-theme="달항아리" aria-pressed="true">
+              <span class="theme-art traditional" aria-hidden="true">🌕</span><span class="theme-name" data-i18n="theme-moonjar">달항아리</span>
             </button>
             <button class="theme-option" type="button" data-theme="햇살 정원" aria-pressed="false">
-              <span class="theme-art garden" aria-hidden="true">🌿</span><span class="theme-name">햇살 정원</span>
+              <span class="theme-art garden" aria-hidden="true">🌿</span><span class="theme-name" data-i18n="theme-garden">햇살 정원</span>
             </button>
             <button class="theme-option" type="button" data-theme="동화 속 주인공" aria-pressed="false">
-              <span class="theme-art story" aria-hidden="true">🧸</span><span class="theme-name">동화 속 주인공</span>
+              <span class="theme-art story" aria-hidden="true">🧸</span><span class="theme-name" data-i18n="theme-story">동화 속 주인공</span>
             </button>
           </div>
+          <div class="price-row">
+            <label class="quantity-control" for="quantity">
+              <span data-i18n="quantity-label">만들 사진 수</span>
+              <select id="quantity" aria-label="생성할 사진 수" data-i18n-aria="quantity-aria">
+                <option value="1" data-i18n="quantity-1">1장</option><option value="2" data-i18n="quantity-2">2장</option><option value="3" data-i18n="quantity-3">3장</option>
+              </select>
+            </label>
+            <div class="total-price"><small data-i18n="price-label">사진 1장 $1.99 · 예상 금액</small><strong id="total-price">$1.99</strong></div>
+          </div>
           <div class="create-row">
-            <span class="create-help">지금은 화면 시안이에요.<br>AI 생성 기능은 추후 연결돼요.</span>
-            <button class="button-primary" id="create-button" type="button">미리보기 만들기 <span aria-hidden="true">→</span></button>
+            <span class="create-help" data-i18n="demo-note">데모 화면 · 실제 생성·결제는<br>서버 연동 후 이용할 수 있어요.</span>
+            <button class="button-primary" id="create-button" type="button"><span data-i18n="order-button">주문 내용 확인</span> <span aria-hidden="true">→</span></button>
           </div>
           <div class="result" id="result" role="status" aria-live="polite">
-            <strong id="result-title">미리보기를 준비했어요!</strong>
-            <p id="result-message">선택한 사진과 스타일이 반영됐어요.</p>
+            <strong id="result-title" data-i18n="result-title">주문 내용을 확인해 주세요</strong>
+            <p id="result-message" data-i18n="result-message">실제 결제는 진행되지 않습니다.</p>
           </div>
         </div>
       </div>
@@ -298,59 +374,207 @@
 
     <section class="closing">
       <div class="wrap">
-        <h2>첫 번째 생일, 오래오래 기억할 수 있도록</h2>
-        <p>우리 아기의 가장 사랑스러운 순간을 준비해 보세요.</p>
-        <a class="button-primary" href="#studio">사진으로 시작하기 <span aria-hidden="true">→</span></a>
+        <h2 data-i18n="closing-title">첫 번째 생일, 오래오래 기억할 수 있도록</h2>
+        <p data-i18n="closing-copy">우리 아기의 가장 사랑스러운 순간을 준비해 보세요.</p>
+        <a class="button-primary" href="#studio"><span data-i18n="closing-button">사진으로 시작하기</span> <span aria-hidden="true">→</span></a>
       </div>
     </section>
   </main>
 
   <footer>
     <div class="wrap footer-inner">
-      <span class="footer-brand">✿ 첫봄</span>
-      <span>우리 아기의 소중한 첫 순간을 위해 · © 2026 첫봄</span>
+      <span class="footer-brand">✿ <span data-i18n="brand-name">첫봄</span></span>
+      <span data-i18n="footer">우리 아기의 소중한 첫 순간을 위해 · © 2026 첫봄</span>
     </div>
   </footer>
 
   <script>
     const fileInput = document.querySelector("#baby-photo");
     const uploadBox = document.querySelector("#upload-box");
-    const preview = document.querySelector("#upload-preview");
+    const photoGrid = document.querySelector("#photo-grid");
     const errorMessage = document.querySelector("#upload-error");
     const result = document.querySelector("#result");
     const resultTitle = document.querySelector("#result-title");
     const resultMessage = document.querySelector("#result-message");
-    let selectedFile = null;
-    let selectedTheme = "전통 한복";
-    let previewUrl = null;
+    const promptInput = document.querySelector("#prompt");
+    const quantityInput = document.querySelector("#quantity");
+    const totalPrice = document.querySelector("#total-price");
+    const genderInputs = document.querySelectorAll('input[name="baby-gender"]');
+    const hanbokStyleWrap = document.querySelector("#hanbok-style-wrap");
+    const selectedFiles = [];
+    let selectedTheme = "달항아리";
+    let selectedGender = "";
+    let currentLanguage = "ko";
 
-    function setPhoto(file) {
-      errorMessage.textContent = "";
+    const translations = {
+      ko: {
+        title: "첫봄 — 우리 아기의 첫 번째 생일", description: "아기 사진과 프롬프트로 특별한 첫돌 기념사진을 준비해 보세요.",
+        "brand-home": "첫봄 홈", "brand-name": "첫봄",
+        "language-label": "언어 선택", "nav-how": "이용 방법", "nav-studio": "사진 만들기", "nav-cta": "무료로 시작하기",
+        "hero-title": "우리 아기의<br><em>첫 번째 생일</em>,<br>더 특별하게", "hero-copy": "아기 얼굴 사진을 최대 세 장 올리고 원하는 프롬프트를 적어주세요.<br>우리 아기만을 위한 특별한 돌 기념사진을 준비해 보세요.",
+        "hero-button": "우리 아기 사진으로 만들기", "rating-label": "별점 5점", trust: "소중한 첫 순간을 오래 간직하도록",
+        "hero-art": "포근한 초록빛 정원에서 미소 짓는 아기의 일러스트", "floating-title": "우리 아기의 첫 번째 봄", "floating-copy": "세상에 하나뿐인 기념사진",
+        "steps-title": "간단하게, 세 단계면 돼요", "steps-copy": "아기 사진과 원하는 설명을 보내 특별한 순간을 준비해 보세요.",
+        "step1-title": "아기 사진을 올려주세요", "step1-copy": "아기 얼굴이 잘 보이는 사진을 최대 세 장까지 올려주세요.",
+        "step2-title": "마음에 드는 분위기를 골라요", "step2-copy": "원하는 장면과 옷차림, 배경을 프롬프트로 설명해 주세요.",
+        "step3-title": "특별한 돌사진을 간직해요", "step3-copy": "한 장당 $1.99로 필요한 수량을 선택하는 서비스예요.",
+        "studio-title": "우리 아기만의<br>돌사진 만들기", "studio-copy": "아기 얼굴 사진을 최대 세 장 올리고, 원하는 결과를 프롬프트로 자세히 적어주세요.",
+        "privacy-title": "🔒 사진은 소중하게 다룰게요.", "privacy-copy": "현재 데모에서는 사진과 프롬프트가 브라우저 밖으로 전송되지 않아요. 실제 서비스 전에는 안전한 업로드, 보관·삭제 정책을 마련해야 합니다.",
+        "upload-label": "1. 아기 얼굴 사진 올리기", "max-photos": "최대 3장", "upload-title": "사진을 끌어다 놓거나 눌러서 최대 3장 선택",
+        "upload-help": "JPG, PNG, WEBP · 장당 최대 15MB", "photo-input": "아기 사진 선택", "photo-grid": "선택한 사진",
+        "notice-label": "사진 생성 주의사항", "notice-title": "사진 생성 전 확인해 주세요",
+        "notice-variation": "AI 이미지는 생성할 때마다 결과가 조금씩 달라질 수 있어요. 결과가 마음에 들지 않으면 요청사항을 더 적어 원하는 방향으로 조정해 보세요.",
+        "notice-frontal": "<strong>사진 구도와 표정에 따라 결과가 달라질 수 있어 정면 사진을 추천해요.</strong>",
+        "photo-tips-title": "결과가 잘 나오는 사진 팁", "photo-tip-face": "얼굴이 크게 나온 사진",
+        "photo-tip-light": "밝은 자연광 사진", "photo-tip-clear": "눈과 얼굴이 가려지지 않은 사진", "photo-tip-steady": "흔들리지 않은 선명한 사진",
+        "gender-label": "2. 아기 성별을 선택해 주세요", "gender-group": "아기 성별 선택", "gender-boy": "남아", "gender-girl": "여아",
+        "hanbok-style-label": "달항아리 한복 스타일", "hanbok-saekdong": "색동", "hanbok-pastel": "파스텔",
+        "prompt-label": "3. 원하는 사진을 설명해 주세요", "prompt-placeholder": "예: 아기가 따뜻한 햇살이 드는 정원에서 아이보리색 한복을 입고 앉아 있는 돌사진. 부드러운 크림색 배경, 자연광, 포근하고 클래식한 분위기.",
+        "prompt-help": "원하는 옷, 배경, 색감, 분위기를 적어주세요. 최대 1,000자.", "theme-label": "4. 참고 스타일 (선택)",
+        "theme-group": "돌사진 스타일 선택", "theme-moonjar": "달항아리", "theme-garden": "햇살 정원", "theme-story": "동화 속 주인공",
+        "quantity-label": "만들 사진 수", "quantity-aria": "생성할 사진 수", "quantity-1": "1장", "quantity-2": "2장", "quantity-3": "3장",
+        "price-label": "사진 1장 $1.99 · 예상 금액", "demo-note": "데모 화면 · 실제 생성·결제는<br>서버 연동 후 이용할 수 있어요.",
+        "order-button": "주문 내용 확인", "result-title": "주문 내용을 확인해 주세요", "result-message": "실제 결제는 진행되지 않습니다.",
+        "closing-title": "첫 번째 생일, 오래오래 기억할 수 있도록", "closing-copy": "우리 아기의 가장 사랑스러운 순간을 준비해 보세요.",
+        "closing-button": "사진으로 시작하기", footer: "우리 아기의 소중한 첫 순간을 위해 · © 2026 첫봄",
+        "error-count": "사진은 최대 3장까지 선택할 수 있어요.", "error-type": "JPG, PNG 또는 WEBP 사진만 가능해요.",
+        "error-size": "사진 용량은 장당 15MB 이하여야 해요.", "error-empty-photo": "먼저 아기 사진을 한 장 이상 선택해 주세요.",
+        "error-prompt": "원하는 사진의 모습을 프롬프트에 적어주세요.", "error-gender": "아기 성별을 선택해 주세요.", "remove-photo": "사진 삭제",
+        "order-title": (quantity, price) => `주문 내용 · 사진 ${quantity}장 · $${price}`,
+        "order-message": (count, gender, theme, prompt) => `참고 사진 ${count}장 · ${gender} · ${theme} 스타일. 프롬프트: “${prompt}” 실제 AI 이미지 생성과 결제는 아직 연결되지 않아 결제되거나 사진이 생성되지 않습니다.`,
+        genders: { boy: "남아", girl: "여아" },
+        themes: { "달항아리": "달항아리", "햇살 정원": "햇살 정원", "동화 속 주인공": "동화 속 주인공" }
+      },
+      en: {
+        title: "FirstBloom — A First Birthday Portrait, Made Just for Them", description: "Turn your favorite baby photos into a one-of-a-kind first birthday portrait. Create a keepsake that feels like your family.",
+        "brand-home": "FirstBloom home", "brand-name": "FirstBloom",
+        "language-label": "Select language", "nav-how": "How it works", "nav-studio": "Create a portrait", "nav-cta": "Get started",
+        "hero-title": "A first birthday<br><em>portrait to treasure</em>", "hero-copy": "Turn up to three favorite baby photos into a keepsake made just for your little one.<br>Describe the look you love—from a classic studio portrait to a storybook scene.",
+        "hero-button": "Create your baby's portrait", "rating-label": "Five-star rating", trust: "Made for the moments you'll want to remember",
+        "hero-art": "Illustration of a smiling baby in a cozy garden", "floating-title": "Their first trip around the sun", "floating-copy": "A little keepsake, made with love",
+        "steps-title": "A keepsake in three easy steps", "steps-copy": "Bring your favorite photos and your imagination. We'll help you picture the possibilities.",
+        "step1-title": "Add up to three favorite photos", "step1-copy": "Choose clear photos that show your baby's face from different angles.",
+        "step2-title": "Tell us what you're dreaming of", "step2-copy": "Describe the outfit, setting, colors, and feeling you want in your portrait.",
+        "step3-title": "Choose how many portraits you want", "step3-copy": "Plan for $1.99 per finished image. No charge is made in this demo.",
+        "studio-title": "A first-birthday portrait<br>as special as your little one", "studio-copy": "Add up to three reference photos and describe the portrait you'd love to see.",
+        "privacy-title": "🔒 Your family's photos deserve care.", "privacy-copy": "In this demo, photos and prompts stay in your browser and are never uploaded. Before launch, the service will need secure photo handling, clear retention limits, and deletion controls.",
+        "upload-label": "1. Add your baby's photos", "max-photos": "Up to 3", "upload-title": "Drop photos here, or click to choose up to 3",
+        "upload-help": "JPG, PNG, or WEBP · Up to 15 MB per photo", "photo-input": "Choose your baby's photos", "photo-grid": "Your selected photos",
+        "notice-label": "Photo tips and generation notes", "notice-title": "A few things to know before you create",
+        "notice-variation": "AI-generated portraits can look a little different each time. If your first result isn't quite right, add more detail to your prompt and customize your request.",
+        "notice-frontal": "<strong>Pose and expression can affect the result, so front-facing photos are best.</strong>",
+        "photo-tips-title": "For the best results, choose photos with:",
+        "photo-tip-face": "Your baby's face clearly in frame", "photo-tip-light": "Bright, natural light",
+        "photo-tip-clear": "Eyes and face fully visible", "photo-tip-steady": "A sharp image with no blur",
+        "gender-label": "2. Choose your baby's gender", "gender-group": "Choose your baby's gender", "gender-boy": "Boy", "gender-girl": "Girl",
+        "hanbok-style-label": "Moon Jar hanbok style", "hanbok-saekdong": "Saekdong (rainbow-striped sleeves)", "hanbok-pastel": "Pastel",
+        "prompt-label": "3. Describe the portrait you have in mind", "prompt-placeholder": "For example: A sweet first-birthday portrait of my baby in a soft ivory outfit, sitting in a sunlit garden. Warm natural light, creamy colors, a timeless editorial feel.",
+        "prompt-help": "Share the outfit, setting, colors, and mood you'd love. Up to 1,000 characters.", "theme-label": "4. Pick an optional style direction",
+        "theme-group": "Choose an optional portrait style", "theme-moonjar": "Moon Jar", "theme-garden": "Garden sunshine", "theme-story": "Storybook",
+        "quantity-label": "Finished images", "quantity-aria": "Number of finished images", "quantity-1": "1 image", "quantity-2": "2 images", "quantity-3": "3 images",
+        "price-label": "$1.99 per image · Estimated total", "demo-note": "This is a preview. AI portraits and checkout<br>aren't connected yet—no payment is taken.",
+        "order-button": "Review your request", "result-title": "Review your request", "result-message": "This demo won't charge you or generate an image.",
+        "closing-title": "Their first year goes by in a blink.", "closing-copy": "Make room for one more little memory to keep.",
+        "closing-button": "Start with your photos", footer: "Made for the little moments that become family stories · © 2026 FirstBloom",
+        "error-count": "You can add up to 3 photos.", "error-type": "Please choose JPG, PNG, or WEBP photos.",
+        "error-size": "Each photo must be 15 MB or smaller.", "error-empty-photo": "Please add at least one baby photo to get started.",
+        "error-prompt": "Tell us a little about the portrait you'd love.", "error-gender": "Please choose your baby's gender.", "remove-photo": "Remove photo",
+        "order-title": (quantity, price) => `Request summary · ${quantity} image${quantity === "1" ? "" : "s"} · $${price}`,
+        "order-message": (count, gender, theme, prompt) => `${count} reference photo${count === 1 ? "" : "s"} · ${gender} · ${theme} direction. Your idea: “${prompt}” This is a preview only—AI image generation and checkout aren't connected, so no image will be created and you won't be charged.`,
+        genders: { boy: "Boy", girl: "Girl" },
+        themes: { "달항아리": "Moon Jar", "햇살 정원": "Garden sunshine", "동화 속 주인공": "Storybook" }
+      }
+    };
+
+    function translatePage(language) {
+      currentLanguage = language;
+      const strings = translations[language];
+      try {
+        localStorage.setItem("firstbom-language", language);
+      } catch {
+        // Language selection still works when browser storage is unavailable.
+      }
+      document.documentElement.lang = language;
+      document.title = strings.title;
+      document.querySelector('meta[name="description"]').content = strings.description;
+      document.querySelectorAll("[data-i18n]").forEach((element) => {
+        const value = strings[element.dataset.i18n];
+        if (value !== undefined) element.innerHTML = value;
+      });
+      document.querySelectorAll("[data-i18n-aria]").forEach((element) => {
+        element.setAttribute("aria-label", strings[element.dataset.i18nAria]);
+      });
+      document.querySelectorAll("[data-i18n-placeholder]").forEach((element) => {
+        element.placeholder = strings[element.dataset.i18nPlaceholder];
+      });
+      document.querySelectorAll("[data-language]").forEach((button) => {
+        button.setAttribute("aria-pressed", String(button.dataset.language === language));
+      });
+      selectedTheme = document.querySelector(".theme-option[aria-pressed='true']").dataset.theme;
       result.classList.remove("visible");
-      if (!file) return;
-      const allowedTypes = ["image/jpeg", "image/png", "image/webp"];
-      if (!allowedTypes.includes(file.type)) {
-        fileInput.value = "";
-        selectedFile = null;
-        uploadBox.classList.remove("has-image");
-        errorMessage.textContent = "JPG, PNG 또는 WEBP 사진을 선택해 주세요.";
-        return;
-      }
-      if (file.size > 15 * 1024 * 1024) {
-        fileInput.value = "";
-        selectedFile = null;
-        uploadBox.classList.remove("has-image");
-        errorMessage.textContent = "사진 용량은 15MB 이하로 선택해 주세요.";
-        return;
-      }
-      if (previewUrl) URL.revokeObjectURL(previewUrl);
-      selectedFile = file;
-      previewUrl = URL.createObjectURL(file);
-      preview.src = previewUrl;
-      uploadBox.classList.add("has-image");
+      errorMessage.textContent = "";
+      renderPhotos();
+      updateHanbokStyleVisibility();
     }
 
-    fileInput.addEventListener("change", () => setPhoto(fileInput.files[0]));
+    function updateHanbokStyleVisibility() {
+      hanbokStyleWrap.hidden = !(selectedGender === "boy" && selectedTheme === "달항아리");
+    }
+
+    function renderPhotos() {
+      photoGrid.replaceChildren();
+      selectedFiles.forEach(({ file, url }, index) => {
+        const card = document.createElement("div");
+        card.className = "photo-card";
+        const image = document.createElement("img");
+        image.src = url;
+        image.alt = currentLanguage === "en" ? `Selected baby photo ${index + 1}` : `선택한 아기 사진 ${index + 1}`;
+        const name = document.createElement("div");
+        name.className = "photo-name";
+        name.textContent = file.name;
+        const remove = document.createElement("button");
+        remove.className = "photo-remove";
+        remove.type = "button";
+        remove.setAttribute("aria-label", `${file.name} ${translations[currentLanguage]["remove-photo"]}`);
+        remove.textContent = "×";
+        remove.addEventListener("click", () => {
+          URL.revokeObjectURL(selectedFiles[index].url);
+          selectedFiles.splice(index, 1);
+          renderPhotos();
+          result.classList.remove("visible");
+        });
+        card.append(image, name, remove);
+        photoGrid.append(card);
+      });
+      uploadBox.classList.toggle("has-image", selectedFiles.length > 0);
+      fileInput.disabled = selectedFiles.length >= 3;
+    }
+
+    function addPhotos(files) {
+      const allowedTypes = ["image/jpeg", "image/png", "image/webp"];
+      const errors = [];
+      Array.from(files).forEach((file) => {
+        if (selectedFiles.length >= 3) {
+          errors.push(translations[currentLanguage]["error-count"]);
+        } else if (!allowedTypes.includes(file.type)) {
+          errors.push(`${file.name}: ${translations[currentLanguage]["error-type"]}`);
+        } else if (file.size > 15 * 1024 * 1024) {
+          errors.push(`${file.name}: ${translations[currentLanguage]["error-size"]}`);
+        } else {
+          selectedFiles.push({ file, url: URL.createObjectURL(file) });
+        }
+      });
+      errorMessage.textContent = errors.join(" ");
+      if (selectedFiles.length > 0) {
+        result.classList.remove("visible");
+        renderPhotos();
+      }
+    }
+
+    fileInput.addEventListener("change", () => {
+      addPhotos(fileInput.files);
+      fileInput.value = "";
+    });
     ["dragenter", "dragover"].forEach((eventName) => {
       uploadBox.addEventListener(eventName, (event) => {
         event.preventDefault();
@@ -363,7 +587,12 @@
         uploadBox.classList.remove("dragging");
       });
     });
-    uploadBox.addEventListener("drop", (event) => setPhoto(event.dataTransfer.files[0]));
+    uploadBox.addEventListener("drop", (event) => addPhotos(event.dataTransfer.files));
+
+    quantityInput.addEventListener("change", () => {
+      totalPrice.textContent = `$${(Number(quantityInput.value) * 1.99).toFixed(2)}`;
+      result.classList.remove("visible");
+    });
 
     document.querySelectorAll(".theme-option").forEach((button) => {
       button.addEventListener("click", () => {
@@ -372,17 +601,59 @@
           option.setAttribute("aria-pressed", String(option === button));
         });
         result.classList.remove("visible");
+        updateHanbokStyleVisibility();
+      });
+    });
+    genderInputs.forEach((input) => {
+      input.addEventListener("change", () => {
+        selectedGender = input.value;
+        errorMessage.textContent = "";
+        result.classList.remove("visible");
+        updateHanbokStyleVisibility();
       });
     });
 
+    document.querySelectorAll("[data-language]").forEach((button) => {
+      button.addEventListener("click", () => translatePage(button.dataset.language));
+    });
+    const savedLanguage = (() => {
+      try {
+        return localStorage.getItem("firstbom-language");
+      } catch {
+        return null;
+      }
+    })();
+    const preferredLanguage = savedLanguage === "ko" || savedLanguage === "en"
+      ? savedLanguage
+      : (navigator.languages || [navigator.language]).some((language) => language.toLowerCase().startsWith("en")) ? "en" : "ko";
+    translatePage(preferredLanguage);
+
     document.querySelector("#create-button").addEventListener("click", () => {
-      if (!selectedFile) {
-        errorMessage.textContent = "먼저 아기 사진을 선택해 주세요.";
+      const strings = translations[currentLanguage];
+      if (selectedFiles.length === 0) {
+        errorMessage.textContent = strings["error-empty-photo"];
         fileInput.focus();
         return;
       }
-      resultTitle.textContent = `${selectedTheme} 스타일 미리보기`;
-      resultMessage.textContent = `“${selectedFile.name}” 사진을 선택했어요. 이 페이지는 화면 시안이며, 실제 AI 이미지 생성 기능을 사용하려면 생성 API와 서버 연결이 필요합니다.`;
+      if (!selectedGender) {
+        errorMessage.textContent = strings["error-gender"];
+        document.querySelector('input[name="baby-gender"]').focus();
+        return;
+      }
+      if (!promptInput.value.trim()) {
+        errorMessage.textContent = strings["error-prompt"];
+        promptInput.focus();
+        return;
+      }
+      errorMessage.textContent = "";
+      const price = (Number(quantityInput.value) * 1.99).toFixed(2);
+      resultTitle.textContent = strings["order-title"](quantityInput.value, price);
+      resultMessage.textContent = strings["order-message"](
+        selectedFiles.length,
+        strings.genders[selectedGender],
+        strings.themes[selectedTheme],
+        promptInput.value.trim()
+      );
       result.classList.add("visible");
       result.scrollIntoView({ behavior: "smooth", block: "nearest" });
     });
