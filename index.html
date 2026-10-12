@@ -446,6 +446,7 @@
           <h2 data-i18n="studio-title">우리 아기만의<br>돌사진 만들기</h2>
           <p data-i18n="studio-copy">아기 얼굴 사진을 최대 세 장 올리고, 원하는 결과를 프롬프트로 자세히 적어주세요.</p>
           <div class="privacy-note"><b data-i18n="privacy-title">🔒 사진은 소중하게 다룰게요.</b><br><span data-i18n="privacy-copy">생성 요청 시 선택한 아기 사진과 프롬프트가 OpenAI 이미지 API로 전송됩니다. 생성 결과는 이 브라우저의 사진 보관함에 저장됩니다.</span></div>
+          <p class="privacy-note" data-i18n="hosting-note">GitHub Pages 미리보기에서는 AI 사진 생성, 실제 결제, 서버 계정 기능을 제공하지 않습니다. 사진 생성 데모는 README 안내에 따라 Node 서버를 실행해 주세요.</p>
         </div>
         <div class="studio-panel">
           <label class="field-label" for="baby-photo"><span data-i18n="upload-label">1. 아기 얼굴 사진 올리기</span> <span style="font-weight:400;color:#899087" data-i18n="max-photos">최대 3장</span></label>
@@ -651,6 +652,7 @@
         "review-date-locale": "ko-KR",
         "studio-title": "우리 아기만의<br>돌사진 만들기", "studio-copy": "아기 얼굴 사진을 최대 세 장 올리고, 원하는 결과를 프롬프트로 자세히 적어주세요.",
         "privacy-title": "🔒 사진은 소중하게 다룰게요.", "privacy-copy": "생성 요청 시 선택한 아기 사진과 프롬프트가 OpenAI 이미지 API로 전송됩니다. 생성 결과는 이 브라우저의 사진 보관함에 저장됩니다.",
+        "hosting-note": "GitHub Pages 미리보기에서는 AI 사진 생성, 실제 결제, 서버 계정 기능을 제공하지 않습니다. 사진 생성 데모는 README 안내에 따라 Node 서버를 실행해 주세요.",
         "upload-label": "1. 아기 얼굴 사진 올리기", "max-photos": "최대 3장", "upload-title": "사진을 끌어다 놓거나 눌러서 최대 3장 선택",
         "upload-help": "JPG, PNG, WEBP · 장당 최대 15MB", "photo-input": "아기 사진 선택", "photo-grid": "선택한 사진",
         "notice-label": "사진 생성 주의사항", "notice-title": "사진 생성 전 확인해 주세요",
@@ -675,6 +677,7 @@
         "error-consent": "사진을 생성하려면 OpenAI로 사진을 전송하는 데 동의해 주세요.",
         "ai-not-configured": "서버에 OpenAI API 키가 설정되지 않았습니다. .env 설정을 확인해 주세요.",
         "server-unavailable": "AI 서버에 연결할 수 없습니다. 안내에 따라 Node 서버를 실행한 뒤 다시 시도해 주세요.",
+        "static-hosting-only": "이 GitHub Pages 사이트는 정적 미리보기라 사진 생성 서버가 없습니다. README 안내에 따라 Node 서버를 실행해 주세요.",
         "invalid_api_key": "서버의 OpenAI API 키를 확인해 주세요.",
         "model_access_denied": "OpenAI 계정에서 이미지 모델을 사용할 수 있는지 확인해 주세요.",
         "provider_rate_limited": "OpenAI 요청 한도 또는 사용 가능 잔액을 확인한 뒤 다시 시도해 주세요.",
@@ -713,6 +716,7 @@
         "review-date-locale": "en-US",
         "studio-title": "A first-birthday portrait<br>as special as your little one", "studio-copy": "Add up to three reference photos and describe the portrait you'd love to see.",
         "privacy-title": "🔒 Your family's photos deserve care.", "privacy-copy": "When you request generation, the selected baby photos and prompt are sent to the OpenAI Images API. Generated results are saved in this browser's photo library.",
+        "hosting-note": "The GitHub Pages preview does not include AI image generation, real payments, or server accounts. To try image generation, start the Node server using the README instructions.",
         "upload-label": "1. Add your baby's photos", "max-photos": "Up to 3", "upload-title": "Drop photos here, or click to choose up to 3",
         "upload-help": "JPG, PNG, or WEBP · Up to 15 MB per photo", "photo-input": "Choose your baby's photos", "photo-grid": "Your selected photos",
         "notice-label": "Photo tips and generation notes", "notice-title": "A few things to know before you create",
@@ -738,6 +742,7 @@
         "error-consent": "Agree to send the photos to OpenAI before starting generation.",
         "ai-not-configured": "The server has no OpenAI API key. Check the .env configuration.",
         "server-unavailable": "Could not connect to the AI server. Start the Node server using the setup instructions and try again.",
+        "static-hosting-only": "This GitHub Pages site is a static preview without the image-generation server. Start the Node server using the README instructions.",
         "invalid_api_key": "Check the OpenAI API key configured on the server.",
         "model_access_denied": "Check that the OpenAI account has access to the image model.",
         "provider_rate_limited": "Check OpenAI request limits or available balance, then try again.",
@@ -1411,18 +1416,21 @@
     }
 
     async function ensureAiAvailable() {
+      const unavailableMessage = location.hostname.endsWith("github.io")
+        ? translations[currentLanguage]["static-hosting-only"]
+        : accountText("server-unavailable");
       let response;
       try {
         response = await fetch("/api/status", { cache: "no-store" });
       } catch {
-        throw new Error(accountText("server-unavailable"));
+        throw new Error(unavailableMessage);
       }
-      if (!response.ok) throw new Error(accountText("server-unavailable"));
+      if (!response.ok) throw new Error(unavailableMessage);
       let status;
       try {
         status = await response.json();
       } catch {
-        throw new Error(accountText("server-unavailable"));
+        throw new Error(unavailableMessage);
       }
       if (!status.configured) throw new Error(accountText("ai-not-configured"));
     }
