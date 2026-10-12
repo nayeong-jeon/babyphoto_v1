@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://nayeong-jeon.github.io/babyphoto_v1/sitemap.xml

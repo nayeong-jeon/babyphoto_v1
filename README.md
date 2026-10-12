@@ -7,6 +7,16 @@
 
 GitHub Pages는 `main` 브랜치의 루트에서 정적 사이트를 제공합니다. 이 미리보기에서는 화면과 브라우저 안에 저장되는 후기를 이용할 수 있지만, AI 사진 생성용 Node API는 호스팅하지 않습니다. 사진 생성 데모를 사용하려면 아래 지침대로 Node 서버를 실행하세요.
 
+## 검색엔진 등록
+
+- 검색엔진 크롤링을 허용하는 `robots.txt`와 대표 페이지 URL을 담은 `sitemap.xml`을 사이트 루트에서 제공합니다.
+- 페이지에는 대표 URL, 페이지별 제목과 설명, 소셜 공유 메타데이터, 사이트 구조화 데이터를 포함합니다.
+- Google Search Console에서 사이트 소유권을 확인한 뒤 `https://nayeong-jeon.github.io/babyphoto_v1/sitemap.xml`을 제출하고 색인 상태를 모니터링하세요. 소유권 확인과 색인 요청은 사이트 관리자가 직접 해야 하며, 검색결과 노출이나 순위는 보장되지 않습니다.
+- 언어 선택은 같은 페이지에서 문구를 바꾸므로 영어 페이지를 위한 별도 색인 URL은 제공하지 않습니다.
+- SEO는 검색엔진이 페이지를 이해하도록 돕지만, 유용하고 독창적인 콘텐츠와 실제 사용자 경험이 중요합니다. 이 사이트는 현재 단일 페이지 데모입니다.
+
+자세한 내용은 [Google 검색엔진 최적화(SEO) 기본 가이드](https://developers.google.com/search/docs/fundamentals/seo-starter-guide?hl=ko)를 참고하세요.
+
 ## OpenAI 사진 생성 데모 시작하기
 
 1. Node.js 20.6 이상을 준비합니다.
