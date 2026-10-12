@@ -22,6 +22,7 @@
 
     * { box-sizing: border-box; }
     html { scroll-behavior: smooth; }
+    body { -webkit-text-size-adjust: 100%; }
     body {
       margin: 0;
       color: var(--ink);
@@ -31,7 +32,7 @@
     }
     :lang(en) h1, :lang(en) h2 { font-family: "DM Serif Display", Georgia, serif; font-weight: 400; letter-spacing: -.035em; }
     :lang(en) .brand { letter-spacing: -.04em; }
-    button, input { font: inherit; }
+    button, input, select, textarea { font: inherit; }
     button { cursor: pointer; }
     a { color: inherit; text-decoration: none; }
     .wrap { width: min(1120px, calc(100% - 48px)); margin: 0 auto; }
@@ -110,6 +111,31 @@
     .section-heading .eyebrow { justify-content: center; }
     h2 { margin: 13px 0 10px; font-size: clamp(27px, 3vw, 36px); letter-spacing: -.06em; }
     .section-subtitle { margin: 0; color: var(--muted); font-size: 13px; line-height: 1.8; }
+    .reviews-layout { display: grid; grid-template-columns: .85fr 1.15fr; gap: 24px; align-items: start; }
+    .review-form, .reviews-list { min-width: 0; padding: 24px; border: 1px solid var(--line); border-radius: 18px; background: #fffefa; }
+    .review-form h3, .reviews-list h3 { margin: 0 0 16px; font-size: 16px; }
+    .review-field { display: block; margin-top: 14px; color: #5d655f; font-size: 12px; font-weight: 700; }
+    .review-field input, .review-field select, .review-field textarea {
+      display: block; width: 100%; min-height: 44px; margin-top: 7px; padding: 10px 12px;
+      border: 1px solid var(--line); border-radius: 9px; color: var(--ink); background: #fff;
+    }
+    .review-field textarea { min-height: 120px; resize: vertical; line-height: 1.7; }
+    .review-field input:focus, .review-field select:focus, .review-field textarea:focus { outline: 2px solid #55745f66; border-color: var(--green); }
+    .review-form .button-primary { width: 100%; min-height: 46px; margin-top: 14px; }
+    .review-privacy, .review-status { color: var(--muted); font-size: 11px; line-height: 1.7; }
+    .review-privacy { margin: 12px 0 0; }
+    .review-status { min-height: 18px; margin: 8px 0 0; }
+    .review-status.success { color: var(--green-dark); }
+    .review-status.error { color: #aa5145; }
+    .reviews-list { display: grid; gap: 12px; }
+    .reviews-list h3 { margin-bottom: 0; }
+    .review-empty { margin: 0; color: var(--muted); font-size: 12px; line-height: 1.8; }
+    .review-card { padding: 15px; border: 1px solid var(--line); border-radius: 12px; background: #fff; }
+    .review-card-header { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+    .review-author { overflow: hidden; font-size: 12px; font-weight: 800; text-overflow: ellipsis; white-space: nowrap; }
+    .review-date { flex: 0 0 auto; color: var(--muted); font-size: 10px; }
+    .review-stars { margin-top: 7px; color: #d5a883; font-size: 13px; letter-spacing: 2px; }
+    .review-copy { margin: 7px 0 0; color: #626b63; font-size: 12px; line-height: 1.8; overflow-wrap: anywhere; white-space: pre-wrap; }
 
     .steps { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
     .step-card { padding: 27px 26px; border: 1px solid var(--line); border-radius: 18px; background: #fffefa; }
@@ -178,10 +204,17 @@
     .create-row { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-top: 21px; }
     .create-row .button-primary { flex: 0 0 auto; }
     .create-help { color: #90968e; font-size: 10px; line-height: 1.6; }
+    .ai-consent { display: flex; align-items: flex-start; gap: 9px; margin-top: 20px; color: #6d756d; font-size: 11px; line-height: 1.7; }
+    .ai-consent input { flex: 0 0 auto; width: 16px; height: 16px; margin: 2px 0 0; accent-color: var(--green); }
+    .create-row button:disabled { cursor: wait; opacity: .65; transform: none; }
     .result { display: none; margin-top: 18px; padding: 15px 17px; border-radius: 12px; background: #f1f4ed; }
     .result.visible { display: block; }
     .result strong { display: block; color: var(--green-dark); font-size: 12px; }
     .result p { margin: 5px 0 0; color: #6b756b; font-size: 11px; line-height: 1.7; }
+    .generated-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 10px; margin-top: 14px; }
+    .generated-grid:empty { display: none; }
+    .generated-grid img { display: block; width: 100%; max-height: 320px; border-radius: 10px; object-fit: cover; }
+    .result .account-nav { margin-top: 12px; }
 
     .closing { padding: 58px 24px; background: #e9eee6; text-align: center; }
     .closing h2 { margin: 0 0 10px; }
@@ -189,29 +222,107 @@
     footer { padding: 24px 0; color: #8b9089; font-size: 10px; }
     .footer-inner { display: flex; justify-content: space-between; gap: 20px; }
     .footer-brand { color: var(--ink); font-size: 13px; font-weight: 800; }
+    .account-nav { padding: 10px 16px; border: 1px solid var(--line); border-radius: 999px; color: var(--green-dark); background: #fffefa; font-size: 12px; font-weight: 700; }
+    .account-page[hidden] { display: none; }
+    .account-page { min-height: 50vh; }
+    .account-heading { display: flex; align-items: center; justify-content: space-between; gap: 16px; }
+    .account-heading h2 { margin-top: 0; }
+    .account-summary { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px; margin: 24px 0 36px; }
+    .account-stat, .account-card { padding: 20px; border: 1px solid var(--line); border-radius: 16px; background: #fffefa; }
+    .account-stat span { display: block; color: var(--muted); font-size: 12px; }
+    .account-stat strong { display: block; margin-top: 8px; color: var(--green-dark); font-size: 24px; }
+    .account-card { margin-top: 16px; }
+    .account-card h3 { margin: 0 0 12px; font-size: 16px; }
+    .account-hint, .account-empty { color: var(--muted); font-size: 12px; line-height: 1.8; }
+    .account-order-list { display: grid; gap: 10px; }
+    .account-order { display: flex; justify-content: space-between; gap: 16px; padding: 12px; border-radius: 10px; background: #f6f5ef; font-size: 12px; }
+    .account-order small { display: block; margin-top: 4px; color: var(--muted); }
+    .saved-photo-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 12px; }
+    .saved-photo { overflow: hidden; border: 1px solid var(--line); border-radius: 12px; background: #fff; }
+    .saved-photo img { display: block; width: 100%; height: 150px; object-fit: cover; }
+    .saved-photo-info { padding: 9px; }
+    .saved-photo-info strong { display: block; overflow: hidden; font-size: 11px; text-overflow: ellipsis; white-space: nowrap; }
+    .saved-photo-actions { display: flex; gap: 8px; margin-top: 9px; }
+    .saved-photo-actions a, .saved-photo-actions button { flex: 1; padding: 7px 5px; border: 1px solid var(--line); border-radius: 7px; color: var(--green-dark); background: #fffefa; text-align: center; font-size: 10px; font-weight: 700; }
+    .account-error { min-height: 18px; margin: 8px 0 0; color: #aa5145; font-size: 11px; }
+    .account-error.success { color: var(--green-dark); }
+    .account-upload { display: inline-flex; align-items: center; gap: 8px; margin-top: 12px; }
+    .account-upload input { max-width: 100%; font-size: 11px; }
+    .auth-dialog { width: min(440px, calc(100% - 32px)); padding: 26px; border: 1px solid var(--line); border-radius: 18px; color: var(--ink); background: var(--cream); box-shadow: 0 20px 70px #28352e33; }
+    .auth-dialog::backdrop { background: #28352e88; }
+    .auth-dialog h2 { margin: 0 0 18px; font-size: 25px; }
+    .auth-close { float: right; width: 32px; height: 32px; border: 0; border-radius: 50%; color: var(--ink); background: #ecebe4; font-size: 18px; }
+    .auth-dialog label { display: block; margin-top: 13px; color: #5d655f; font-size: 12px; font-weight: 700; }
+    .auth-dialog input { display: block; width: 100%; margin-top: 6px; padding: 11px 12px; border: 1px solid var(--line); border-radius: 9px; background: white; }
+    .auth-dialog .button-primary { width: 100%; margin-top: 18px; }
+    .auth-switch { margin: 15px 0 0; color: var(--muted); text-align: center; font-size: 11px; }
+    .auth-switch button { padding: 0; border: 0; color: var(--green-dark); background: none; font-weight: 700; }
 
     @media (max-width: 760px) {
-      .wrap { width: min(100% - 36px, 540px); }
-      header { height: 68px; }
-      .nav-links { gap: 0; }
-      .nav-end { gap: 8px; }
-      .language-switch button { padding: 7px 8px; }
-      .nav-links a:not(.nav-cta) { display: none; }
-      .nav-cta { padding: 10px 15px; font-size: 11px; }
+      .wrap { width: min(100% - 32px, 540px); }
+      header { min-height: 64px; height: auto; padding: 8px 0; }
+      .nav { gap: 8px; }
+      .nav-links { display: none; }
+      .nav-end { gap: 6px; }
+      .brand { gap: 7px; font-size: 19px; }
+      .brand-mark { width: 29px; height: 29px; font-size: 15px; }
+      .language-switch { flex: 0 0 auto; }
+      .language-switch button { min-height: 38px; padding: 7px 8px; }
+      #account-button { min-height: 38px; padding: 8px 10px; font-size: 10px; }
       .hero { padding: 48px 0 52px; }
       .hero-grid { grid-template-columns: 1fr; gap: 20px; }
       .hero-copy { font-size: 13px; }
       .hero-art { min-height: 340px; }
       .art-backdrop { width: min(330px, 86%); }
-      .floating-card { right: 2px; bottom: 28px; }
+      .floating-card { right: 0; bottom: 28px; max-width: 60%; padding: 11px 13px; }
       .section { padding: 58px 0; }
       .steps { grid-template-columns: 1fr; gap: 12px; }
       .step-card { padding: 20px; }
       .step-card h3 { margin: 13px 0 5px; }
       .studio { grid-template-columns: 1fr; gap: 25px; }
-      .studio-panel { padding: 19px; }
+      .studio-panel { min-width: 0; padding: 18px; border-radius: 16px; }
+      .reviews-layout { grid-template-columns: 1fr; gap: 14px; }
+      .review-form, .reviews-list { padding: 18px; }
+      .review-field input, .review-field select, .review-field textarea { font-size: 16px; }
       .photo-tips { grid-template-columns: 1fr; }
+      .photo-card img { height: clamp(76px, 25vw, 112px); }
+      .theme-option { min-width: 0; }
+      .theme-art { height: 58px; }
+      .theme-name { padding: 8px 5px 9px; text-align: center; font-size: 10px; line-height: 1.4; overflow-wrap: anywhere; }
+      .prompt-field { min-height: 130px; font-size: 16px; }
+      .hanbok-style select, .quantity-control select { min-height: 44px; font-size: 16px; }
+      .gender-option { min-height: 44px; }
+      .ai-consent { gap: 11px; font-size: 12px; }
+      .ai-consent input { width: 20px; height: 20px; }
+      .create-row { align-items: stretch; flex-direction: column; gap: 10px; }
+      .create-row .button-primary { width: 100%; min-height: 48px; }
+      .create-help { font-size: 11px; }
       .footer-inner { flex-direction: column; gap: 8px; }
+      .account-summary { grid-template-columns: 1fr; }
+      .account-heading { align-items: flex-start; }
+      .account-order { flex-direction: column; gap: 5px; }
+      .saved-photo-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .account-upload { align-items: flex-start; flex-direction: column; }
+      .account-upload .button-primary { min-height: 44px; display: inline-flex; align-items: center; }
+      .auth-dialog { max-height: calc(100dvh - 32px); overflow-y: auto; }
+    }
+    @media (max-width: 380px) {
+      .wrap { width: calc(100% - 24px); }
+      .brand { gap: 5px; font-size: 17px; }
+      .brand-mark { width: 27px; height: 27px; }
+      .nav-end { gap: 4px; }
+      #account-button { padding: 7px 8px; font-size: 9px; }
+      .hero { padding-top: 38px; }
+      .hero-art { min-height: 300px; }
+      .studio-panel { padding: 14px; }
+      .price-row { align-items: stretch; flex-direction: column; gap: 12px; }
+      .quantity-control { justify-content: space-between; font-size: 12px; }
+      .total-price { display: flex; align-items: center; justify-content: space-between; text-align: left; }
+      .theme-option .theme-name { font-size: 9px; }
+      .auth-dialog { padding: 20px; }
+    }
+    @media (hover: none) {
+      .nav-cta:hover, .button-primary:hover { transform: none; box-shadow: none; }
     }
     @media (prefers-reduced-motion: reduce) {
       *, *::before, *::after { scroll-behavior: auto !important; transition-duration: .01ms !important; }
@@ -221,7 +332,7 @@
 <body>
   <header>
     <nav class="wrap nav" aria-label="주 메뉴">
-      <a class="brand" href="#" aria-label="첫봄 홈" data-i18n-aria="brand-home">
+      <a class="brand" id="brand-home" href="#" aria-label="첫봄 홈" data-i18n-aria="brand-home">
         <span class="brand-mark" aria-hidden="true">✿</span> <span data-i18n="brand-name">첫봄</span>
       </a>
       <div class="nav-end">
@@ -234,6 +345,7 @@
         <button type="button" data-language="ko" aria-pressed="true">한국어</button>
         <button type="button" data-language="en" aria-pressed="false">EN</button>
       </div>
+      <button class="account-nav" id="account-button" type="button" data-account-i18n="account-sign-in">로그인 / 회원가입</button>
       </div>
     </nav>
   </header>
@@ -290,13 +402,50 @@
       </div>
     </section>
 
+    <section class="section section-white" id="reviews">
+      <div class="wrap">
+        <div class="section-heading">
+          <div class="eyebrow" data-i18n="reviews-eyebrow">YOUR STORY</div>
+          <h2 data-i18n="reviews-title">이용 후기를 들려주세요</h2>
+          <p class="section-subtitle" data-i18n="reviews-copy">첫봄을 이용한 경험을 별점과 함께 남겨주세요.</p>
+        </div>
+        <div class="reviews-layout">
+          <form class="review-form" id="review-form">
+            <h3 data-i18n="review-form-title">후기 작성하기</h3>
+            <label class="review-field" for="review-name"><span data-i18n="review-name-label">작성자명</span>
+              <input id="review-name" name="name" autocomplete="name" maxlength="40" required>
+            </label>
+            <label class="review-field" for="review-rating"><span data-i18n="review-rating-label">별점</span>
+              <select id="review-rating" name="rating" required>
+                <option value="5" data-i18n="review-rating-5">★★★★★ · 아주 좋아요</option>
+                <option value="4" data-i18n="review-rating-4">★★★★☆ · 좋아요</option>
+                <option value="3" data-i18n="review-rating-3">★★★☆☆ · 보통이에요</option>
+                <option value="2" data-i18n="review-rating-2">★★☆☆☆ · 아쉬워요</option>
+                <option value="1" data-i18n="review-rating-1">★☆☆☆☆ · 개선이 필요해요</option>
+              </select>
+            </label>
+            <label class="review-field" for="review-text"><span data-i18n="review-text-label">이용 후기</span>
+              <textarea id="review-text" name="text" maxlength="500" required data-i18n-placeholder="review-placeholder" placeholder="이용 경험을 자유롭게 적어주세요. (최대 500자)"></textarea>
+            </label>
+            <p class="review-privacy" data-i18n="review-privacy">후기와 작성자명은 현재 브라우저에만 저장되며, 다른 방문자에게 공유되지 않습니다.</p>
+            <button class="button-primary" type="submit" data-i18n="review-submit">후기 등록</button>
+            <p class="review-status" id="review-status" role="status" aria-live="polite"></p>
+          </form>
+          <div class="reviews-list" aria-labelledby="reviews-list-title">
+            <h3 id="reviews-list-title" data-i18n="reviews-list-title">이 브라우저에 저장된 후기</h3>
+            <div id="review-items" aria-live="polite"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
     <section class="section" id="studio">
       <div class="wrap studio">
         <div class="studio-intro">
           <div class="eyebrow">MAKE A MEMORY</div>
           <h2 data-i18n="studio-title">우리 아기만의<br>돌사진 만들기</h2>
           <p data-i18n="studio-copy">아기 얼굴 사진을 최대 세 장 올리고, 원하는 결과를 프롬프트로 자세히 적어주세요.</p>
-          <div class="privacy-note"><b data-i18n="privacy-title">🔒 사진은 소중하게 다룰게요.</b><br><span data-i18n="privacy-copy">현재 데모에서는 사진과 프롬프트가 브라우저 밖으로 전송되지 않아요. 실제 서비스 전에는 안전한 업로드, 보관·삭제 정책을 마련해야 합니다.</span></div>
+          <div class="privacy-note"><b data-i18n="privacy-title">🔒 사진은 소중하게 다룰게요.</b><br><span data-i18n="privacy-copy">생성 요청 시 선택한 아기 사진과 프롬프트가 OpenAI 이미지 API로 전송됩니다. 생성 결과는 이 브라우저의 사진 보관함에 저장됩니다.</span></div>
         </div>
         <div class="studio-panel">
           <label class="field-label" for="baby-photo"><span data-i18n="upload-label">1. 아기 얼굴 사진 올리기</span> <span style="font-weight:400;color:#899087" data-i18n="max-photos">최대 3장</span></label>
@@ -360,15 +509,50 @@
             </label>
             <div class="total-price"><small data-i18n="price-label">사진 1장 $1.99 · 예상 금액</small><strong id="total-price">$1.99</strong></div>
           </div>
+          <label class="ai-consent"><input id="ai-consent" type="checkbox"><span data-i18n="ai-consent">선택한 아기 사진과 프롬프트를 OpenAI로 전송해 사진을 생성하는 데 동의합니다. AI API 사용료는 운영자 계정에 청구되며, 테스트 결제는 실제 결제가 아닙니다.</span></label>
           <div class="create-row">
-            <span class="create-help" data-i18n="demo-note">데모 화면 · 실제 생성·결제는<br>서버 연동 후 이용할 수 있어요.</span>
-            <button class="button-primary" id="create-button" type="button"><span data-i18n="order-button">주문 내용 확인</span> <span aria-hidden="true">→</span></button>
+            <span class="create-help" data-i18n="demo-note">테스트 결제 · AI 사진 생성 시 OpenAI API 이용료가 발생합니다.</span>
+            <button class="button-primary" id="create-button" type="button"><span data-i18n="order-button">사진 생성하기</span> <span aria-hidden="true">→</span></button>
           </div>
           <div class="result" id="result" role="status" aria-live="polite">
             <strong id="result-title" data-i18n="result-title">주문 내용을 확인해 주세요</strong>
             <p id="result-message" data-i18n="result-message">실제 결제는 진행되지 않습니다.</p>
+            <div class="generated-grid" id="generated-grid"></div>
+            <button class="account-nav" id="show-library-button" type="button" data-account-i18n="view-library" hidden>마이페이지 보관함 보기</button>
           </div>
         </div>
+      </div>
+    </section>
+
+    <section class="section section-white account-page" id="account-page" hidden>
+      <div class="wrap">
+        <div class="account-heading">
+          <div>
+            <div class="eyebrow" data-account-i18n="account-eyebrow">MY FIRSTBLOOM</div>
+            <h2 data-account-i18n="account-title">마이페이지</h2>
+            <p class="section-subtitle" id="account-email"></p>
+          </div>
+          <button class="account-nav" id="sign-out-button" type="button" data-account-i18n="sign-out">로그아웃</button>
+        </div>
+        <div class="account-summary">
+          <div class="account-stat"><span data-account-i18n="credits-label">저장 가능 사진</span><strong id="available-credits">0</strong></div>
+          <div class="account-stat"><span data-account-i18n="saved-label">보관 중인 사진</span><strong id="saved-count">0</strong></div>
+        </div>
+        <div class="account-card">
+          <h3 data-account-i18n="orders-title">테스트 결제 내역</h3>
+          <div class="account-order-list" id="account-orders"></div>
+        </div>
+        <div class="account-card">
+          <h3 data-account-i18n="library-title">내 사진 보관함</h3>
+          <p class="account-hint" data-account-i18n="library-hint">테스트 결제로 받은 저장 슬롯만큼 완성된 사진을 올려 보관할 수 있어요. JPG, PNG, WEBP · 장당 최대 15MB. 사진은 이 브라우저에만 저장되며, 삭제하면 슬롯을 다시 사용할 수 있어요.</p>
+          <label class="account-upload">
+            <span class="button-primary" data-account-i18n="upload-finished">완성된 사진 추가</span>
+            <input id="finished-photo-input" type="file" accept="image/jpeg,image/png,image/webp" multiple>
+          </label>
+          <p class="account-error" id="account-error" role="status" aria-live="polite"></p>
+          <div class="saved-photo-grid" id="saved-photo-grid"></div>
+        </div>
+        <p class="account-hint" data-account-i18n="local-only-note">데모 계정과 사진은 현재 기기의 브라우저에만 저장됩니다. 브라우저 데이터 삭제·기기 변경 시 복구할 수 없으며 실제 결제나 서버 인증은 제공하지 않습니다.</p>
       </div>
     </section>
 
@@ -388,6 +572,19 @@
     </div>
   </footer>
 
+  <dialog class="auth-dialog" id="auth-dialog" aria-labelledby="auth-title">
+    <button class="auth-close" id="auth-close" type="button" aria-label="닫기" data-account-aria="close">×</button>
+    <h2 id="auth-title" data-account-i18n="sign-up-title">회원가입</h2>
+    <form id="auth-form">
+      <label id="auth-name-label"><span data-account-i18n="name-label">이름</span><input id="auth-name" name="name" autocomplete="name" maxlength="60" required></label>
+      <label><span data-account-i18n="email-label">이메일</span><input id="auth-email" name="email" type="email" autocomplete="email" maxlength="254" required></label>
+      <label><span data-account-i18n="password-label">비밀번호 (8자 이상)</span><input id="auth-password" name="password" type="password" autocomplete="new-password" minlength="8" required></label>
+      <p class="account-error" id="auth-error" role="status" aria-live="polite"></p>
+      <button class="button-primary" id="auth-submit" type="submit" data-account-i18n="sign-up-submit">회원가입</button>
+    </form>
+    <p class="auth-switch"><span id="auth-switch-copy">이미 계정이 있나요?</span> <button type="button" id="auth-switch" data-account-i18n="switch-to-login">로그인</button></p>
+  </dialog>
+
   <script>
     const fileInput = document.querySelector("#baby-photo");
     const uploadBox = document.querySelector("#upload-box");
@@ -403,10 +600,30 @@
     const hanbokStyleWrap = document.querySelector("#hanbok-style-wrap");
     const hanbokStyleInput = document.querySelector("#hanbok-style");
     const saekdongOption = hanbokStyleInput.querySelector('option[value="saekdong"]');
+    const accountPage = document.querySelector("#account-page");
+    const authDialog = document.querySelector("#auth-dialog");
+    const authForm = document.querySelector("#auth-form");
+    const authError = document.querySelector("#auth-error");
+    const accountError = document.querySelector("#account-error");
+    const reviewForm = document.querySelector("#review-form");
+    const reviewStatus = document.querySelector("#review-status");
+    const reviewItems = document.querySelector("#review-items");
     const selectedFiles = [];
     let selectedTheme = "달항아리";
     let selectedGender = "";
     let currentLanguage = "ko";
+    let authMode = "sign-up";
+    let checkoutPending = false;
+    let retryOrderId = null;
+    let generatedPreviewUrls = [];
+    let activeAccountId = (() => {
+      try {
+        return localStorage.getItem("firstbom-session");
+      } catch {
+        return null;
+      }
+    })();
+    let libraryObjectUrls = [];
 
     const translations = {
       ko: {
@@ -420,8 +637,20 @@
         "step1-title": "아기 사진을 올려주세요", "step1-copy": "아기 얼굴이 잘 보이는 사진을 최대 세 장까지 올려주세요.",
         "step2-title": "마음에 드는 분위기를 골라요", "step2-copy": "원하는 장면과 옷차림, 배경을 프롬프트로 설명해 주세요.",
         "step3-title": "특별한 돌사진을 간직해요", "step3-copy": "한 장당 $1.99로 필요한 수량을 선택하는 서비스예요.",
+        "reviews-eyebrow": "YOUR STORY", "reviews-title": "이용 후기를 들려주세요", "reviews-copy": "첫봄을 이용한 경험을 별점과 함께 남겨주세요.",
+        "review-form-title": "후기 작성하기", "review-name-label": "작성자명", "review-rating-label": "별점",
+        "review-rating-5": "★★★★★ · 아주 좋아요", "review-rating-4": "★★★★☆ · 좋아요",
+        "review-rating-3": "★★★☆☆ · 보통이에요", "review-rating-2": "★★☆☆☆ · 아쉬워요",
+        "review-rating-1": "★☆☆☆☆ · 개선이 필요해요", "review-text-label": "이용 후기",
+        "review-placeholder": "이용 경험을 자유롭게 적어주세요. (최대 500자)",
+        "review-privacy": "후기와 작성자명은 현재 브라우저에만 저장되며, 다른 방문자에게 공유되지 않습니다.",
+        "review-submit": "후기 등록", "reviews-list-title": "이 브라우저에 저장된 후기",
+        "reviews-empty": "아직 등록된 후기가 없어요. 첫 후기를 남겨주세요.",
+        "review-saved": "후기가 이 브라우저에 저장되었습니다.", "review-invalid": "작성자명과 후기를 확인해 주세요.",
+        "review-storage-error": "후기를 저장하거나 불러오지 못했습니다. 브라우저 저장 공간을 확인해 주세요.",
+        "review-date-locale": "ko-KR",
         "studio-title": "우리 아기만의<br>돌사진 만들기", "studio-copy": "아기 얼굴 사진을 최대 세 장 올리고, 원하는 결과를 프롬프트로 자세히 적어주세요.",
-        "privacy-title": "🔒 사진은 소중하게 다룰게요.", "privacy-copy": "현재 데모에서는 사진과 프롬프트가 브라우저 밖으로 전송되지 않아요. 실제 서비스 전에는 안전한 업로드, 보관·삭제 정책을 마련해야 합니다.",
+        "privacy-title": "🔒 사진은 소중하게 다룰게요.", "privacy-copy": "생성 요청 시 선택한 아기 사진과 프롬프트가 OpenAI 이미지 API로 전송됩니다. 생성 결과는 이 브라우저의 사진 보관함에 저장됩니다.",
         "upload-label": "1. 아기 얼굴 사진 올리기", "max-photos": "최대 3장", "upload-title": "사진을 끌어다 놓거나 눌러서 최대 3장 선택",
         "upload-help": "JPG, PNG, WEBP · 장당 최대 15MB", "photo-input": "아기 사진 선택", "photo-grid": "선택한 사진",
         "notice-label": "사진 생성 주의사항", "notice-title": "사진 생성 전 확인해 주세요",
@@ -435,15 +664,27 @@
         "prompt-help": "원하는 옷, 배경, 색감, 분위기를 적어주세요. 최대 1,000자.", "theme-label": "4. 참고 스타일 (선택)",
         "theme-group": "돌사진 스타일 선택", "theme-moonjar": "달항아리", "theme-garden": "햇살 정원", "theme-story": "동화 속 주인공",
         "quantity-label": "만들 사진 수", "quantity-aria": "생성할 사진 수", "quantity-1": "1장", "quantity-2": "2장", "quantity-3": "3장",
-        "price-label": "사진 1장 $1.99 · 예상 금액", "demo-note": "데모 화면 · 실제 생성·결제는<br>서버 연동 후 이용할 수 있어요.",
-        "order-button": "주문 내용 확인", "result-title": "주문 내용을 확인해 주세요", "result-message": "실제 결제는 진행되지 않습니다.",
+        "price-label": "사진 1장 $1.99 · 테스트 금액", "demo-note": "테스트 결제 · AI 사진 생성 시 OpenAI API 이용료가 발생합니다.",
+        "ai-consent": "선택한 아기 사진과 프롬프트를 OpenAI로 전송해 사진을 생성하는 데 동의합니다. AI API 사용료는 운영자 계정에 청구되며, 테스트 결제는 실제 결제가 아닙니다.",
+        "order-button": "사진 생성하기", "result-title": "사진을 생성하고 있어요", "result-message": "사진을 안전하게 준비하고 있습니다.",
         "closing-title": "첫 번째 생일, 오래오래 기억할 수 있도록", "closing-copy": "우리 아기의 가장 사랑스러운 순간을 준비해 보세요.",
         "closing-button": "사진으로 시작하기", footer: "우리 아기의 소중한 첫 순간을 위해 · © 2026 첫봄",
         "error-count": "사진은 최대 3장까지 선택할 수 있어요.", "error-type": "JPG, PNG 또는 WEBP 사진만 가능해요.",
         "error-size": "사진 용량은 장당 15MB 이하여야 해요.", "error-empty-photo": "먼저 아기 사진을 한 장 이상 선택해 주세요.",
         "error-prompt": "원하는 사진의 모습을 프롬프트에 적어주세요.", "error-gender": "아기 성별을 선택해 주세요.", "remove-photo": "사진 삭제",
-        "order-title": (quantity, price) => `주문 내용 · 사진 ${quantity}장 · $${price}`,
-        "order-message": (count, gender, theme, prompt) => `참고 사진 ${count}장 · ${gender} · ${theme} 스타일. 프롬프트: “${prompt}” 실제 AI 이미지 생성과 결제는 아직 연결되지 않아 결제되거나 사진이 생성되지 않습니다.`,
+        "error-consent": "사진을 생성하려면 OpenAI로 사진을 전송하는 데 동의해 주세요.",
+        "ai-not-configured": "서버에 OpenAI API 키가 설정되지 않았습니다. .env 설정을 확인해 주세요.",
+        "server-unavailable": "AI 서버에 연결할 수 없습니다. 안내에 따라 Node 서버를 실행한 뒤 다시 시도해 주세요.",
+        "invalid_api_key": "서버의 OpenAI API 키를 확인해 주세요.",
+        "model_access_denied": "OpenAI 계정에서 이미지 모델을 사용할 수 있는지 확인해 주세요.",
+        "provider_rate_limited": "OpenAI 요청 한도 또는 사용 가능 잔액을 확인한 뒤 다시 시도해 주세요.",
+        "generation_failed": "사진 생성에 실패했습니다. 잠시 후 다시 시도해 주세요.",
+        "incomplete_generation": "요청한 수량의 사진을 모두 생성하지 못했습니다. 다시 시도해 주세요.",
+        "generation_timed_out": "사진 생성 시간이 초과되었습니다. 잠시 후 다시 시도해 주세요.",
+        "generation_limit": "요청이 잠시 몰렸습니다. 1분 후 다시 시도해 주세요.",
+        "photos-sent": "선택한 사진과 설명을 OpenAI 이미지 API로 보내고 있습니다.",
+        "generation-saved": "사진 생성이 완료되어 이 브라우저의 마이페이지 보관함에 저장했습니다.",
+        "order-title": (quantity, price) => `사진 ${quantity}장 생성 · 테스트 금액 $${price}`,
         genders: { boy: "남아", girl: "여아" },
         themes: { "달항아리": "달항아리", "햇살 정원": "햇살 정원", "동화 속 주인공": "동화 속 주인공" }
       },
@@ -458,8 +699,20 @@
         "step1-title": "Add up to three favorite photos", "step1-copy": "Choose clear photos that show your baby's face from different angles.",
         "step2-title": "Tell us what you're dreaming of", "step2-copy": "Describe the outfit, setting, colors, and feeling you want in your portrait.",
         "step3-title": "Choose how many portraits you want", "step3-copy": "Plan for $1.99 per finished image. No charge is made in this demo.",
+        "reviews-eyebrow": "YOUR STORY", "reviews-title": "Share your experience", "reviews-copy": "Leave a rating and tell us what you thought of FirstBloom.",
+        "review-form-title": "Write a review", "review-name-label": "Your name", "review-rating-label": "Rating",
+        "review-rating-5": "★★★★★ · Loved it", "review-rating-4": "★★★★☆ · Liked it",
+        "review-rating-3": "★★★☆☆ · It was okay", "review-rating-2": "★★☆☆☆ · Could be better",
+        "review-rating-1": "★☆☆☆☆ · Needs improvement", "review-text-label": "Your review",
+        "review-placeholder": "Tell us about your experience (up to 500 characters).",
+        "review-privacy": "Reviews and names are saved only in this browser and are not shared with other visitors.",
+        "review-submit": "Submit review", "reviews-list-title": "Reviews saved in this browser",
+        "reviews-empty": "No reviews yet. Be the first to share your experience.",
+        "review-saved": "Your review was saved in this browser.", "review-invalid": "Please check your name and review.",
+        "review-storage-error": "We couldn't save or load reviews. Check your browser storage.",
+        "review-date-locale": "en-US",
         "studio-title": "A first-birthday portrait<br>as special as your little one", "studio-copy": "Add up to three reference photos and describe the portrait you'd love to see.",
-        "privacy-title": "🔒 Your family's photos deserve care.", "privacy-copy": "In this demo, photos and prompts stay in your browser and are never uploaded. Before launch, the service will need secure photo handling, clear retention limits, and deletion controls.",
+        "privacy-title": "🔒 Your family's photos deserve care.", "privacy-copy": "When you request generation, the selected baby photos and prompt are sent to the OpenAI Images API. Generated results are saved in this browser's photo library.",
         "upload-label": "1. Add your baby's photos", "max-photos": "Up to 3", "upload-title": "Drop photos here, or click to choose up to 3",
         "upload-help": "JPG, PNG, or WEBP · Up to 15 MB per photo", "photo-input": "Choose your baby's photos", "photo-grid": "Your selected photos",
         "notice-label": "Photo tips and generation notes", "notice-title": "A few things to know before you create",
@@ -474,19 +727,329 @@
         "prompt-help": "Share the outfit, setting, colors, and mood you'd love. Up to 1,000 characters.", "theme-label": "4. Pick an optional style direction",
         "theme-group": "Choose an optional portrait style", "theme-moonjar": "Moon Jar", "theme-garden": "Garden sunshine", "theme-story": "Storybook",
         "quantity-label": "Finished images", "quantity-aria": "Number of finished images", "quantity-1": "1 image", "quantity-2": "2 images", "quantity-3": "3 images",
-        "price-label": "$1.99 per image · Estimated total", "demo-note": "This is a preview. AI portraits and checkout<br>aren't connected yet—no payment is taken.",
-        "order-button": "Review your request", "result-title": "Review your request", "result-message": "This demo won't charge you or generate an image.",
+        "price-label": "$1.99 per image · Test total", "demo-note": "Test checkout · OpenAI API usage is billed to the operator's account.",
+        "ai-consent": "I agree to send the selected baby photos and prompt to OpenAI to generate images. API usage is billed to the operator's account; this test checkout is not a real payment.",
+        "order-button": "Generate photos", "result-title": "Generating your photos", "result-message": "We're preparing your portraits.",
         "closing-title": "Their first year goes by in a blink.", "closing-copy": "Make room for one more little memory to keep.",
         "closing-button": "Start with your photos", footer: "Made for the little moments that become family stories · © 2026 FirstBloom",
         "error-count": "You can add up to 3 photos.", "error-type": "Please choose JPG, PNG, or WEBP photos.",
         "error-size": "Each photo must be 15 MB or smaller.", "error-empty-photo": "Please add at least one baby photo to get started.",
         "error-prompt": "Tell us a little about the portrait you'd love.", "error-gender": "Please choose your baby's gender.", "remove-photo": "Remove photo",
-        "order-title": (quantity, price) => `Request summary · ${quantity} image${quantity === "1" ? "" : "s"} · $${price}`,
-        "order-message": (count, gender, theme, prompt) => `${count} reference photo${count === 1 ? "" : "s"} · ${gender} · ${theme} direction. Your idea: “${prompt}” This is a preview only—AI image generation and checkout aren't connected, so no image will be created and you won't be charged.`,
+        "error-consent": "Agree to send the photos to OpenAI before starting generation.",
+        "ai-not-configured": "The server has no OpenAI API key. Check the .env configuration.",
+        "server-unavailable": "Could not connect to the AI server. Start the Node server using the setup instructions and try again.",
+        "invalid_api_key": "Check the OpenAI API key configured on the server.",
+        "model_access_denied": "Check that the OpenAI account has access to the image model.",
+        "provider_rate_limited": "Check OpenAI request limits or available balance, then try again.",
+        "generation_failed": "Image generation failed. Please try again shortly.",
+        "incomplete_generation": "The requested number of photos was not generated. Please try again.",
+        "generation_timed_out": "Image generation timed out. Please try again shortly.",
+        "generation_limit": "There are too many requests right now. Try again in one minute.",
+        "photos-sent": "Sending the selected photos and prompt to the OpenAI Images API.",
+        "generation-saved": "Your photos are ready and saved to this browser's My Page library.",
+        "order-title": (quantity, price) => `Generate ${quantity} photo${quantity === "1" ? "" : "s"} · Test total $${price}`,
         genders: { boy: "Boy", girl: "Girl" },
         themes: { "달항아리": "Moon Jar", "햇살 정원": "Garden sunshine", "동화 속 주인공": "Storybook" }
       }
     };
+
+    const accountTranslations = {
+      ko: {
+        "account-sign-in": "로그인 / 회원가입", "account-my-page": "마이페이지", "account-eyebrow": "MY FIRSTBLOOM", "account-title": "마이페이지",
+        "sign-out": "로그아웃", "credits-label": "저장 가능 사진", "saved-label": "보관 중인 사진",
+        "orders-title": "테스트 결제 내역", "library-title": "내 사진 보관함",
+        "library-hint": "테스트 결제로 받은 저장 슬롯만큼 완성된 사진을 올려 보관할 수 있어요. JPG, PNG, WEBP · 장당 최대 15MB. 사진은 이 브라우저에만 저장되며, 삭제하면 슬롯을 다시 사용할 수 있어요.",
+        "upload-finished": "완성된 사진 추가", "local-only-note": "데모 계정과 사진은 현재 기기의 브라우저에만 저장됩니다. 브라우저 데이터 삭제·기기 변경 시 복구할 수 없으며 실제 결제나 서버 인증은 제공하지 않습니다.",
+        "sign-up-title": "회원가입", "login-title": "로그인", "name-label": "이름",
+        "email-label": "이메일", "password-label": "비밀번호 (8자 이상)", "sign-up-submit": "회원가입",
+        "login-submit": "로그인", "switch-to-login": "로그인", "switch-to-sign-up": "회원가입",
+        "existing-account": "이미 계정이 있나요?", "new-account": "처음 오셨나요?", "close": "닫기",
+        "empty-orders": "아직 테스트 결제 내역이 없습니다.", "empty-photos": "아직 보관한 사진이 없습니다.",
+        "order-summary": (date, qty, used, total) => `테스트 구매 · ${date} · $${(qty * 1.99).toFixed(2)}`,
+        "order-slots": (used, total) => `사진 슬롯 ${used}/${total} 사용`,
+        "download": "다운로드", "delete-photo": "삭제", "confirm-delete": "이 사진을 보관함에서 삭제할까요?",
+        "view-library": "마이페이지 보관함 보기", "retry-generation": "사진 생성 다시 시도",
+        "credits-needed": "먼저 사진 만들기에서 테스트 결제를 완료해 주세요.", "upload-limit": "저장 가능한 사진 슬롯 수를 초과했어요.",
+        "file-type-error": "JPG, PNG, WEBP 사진만 올릴 수 있어요.", "file-size-error": "사진 한 장의 크기는 15MB 이하여야 해요.",
+        "saved-photo": "사진을 보관함에 저장했어요.", "storage-error": "브라우저 저장소에 접근하지 못했습니다. 저장 공간을 확인한 뒤 다시 시도해 주세요.",
+        "account-storage-error": "계정 정보를 저장할 수 없습니다. 브라우저 저장 공간을 확인해 주세요.",
+        "duplicate-email": "이미 가입된 이메일입니다. 로그인해 주세요.", "invalid-login": "이메일 또는 비밀번호가 올바르지 않습니다.",
+        "password-error": "비밀번호는 8자 이상 입력해 주세요.", "name-error": "이름을 입력해 주세요.",
+        "auth-required": "테스트 결제를 진행하려면 먼저 회원가입 또는 로그인이 필요합니다.",
+        "payment-saved": "테스트 결제가 완료됐어요. 실제 청구는 없으며, 마이페이지에서 완성된 사진을 올려 보관할 수 있어요.",
+        "request-saved": "주문 요청을 저장했습니다.", "saved-photo-label": "완성 사진",
+        "remove-account-data": "이 브라우저에서 로그아웃했습니다."
+      },
+      en: {
+        "account-sign-in": "Log in / Sign up", "account-my-page": "My Page", "account-eyebrow": "MY FIRSTBLOOM", "account-title": "My Page",
+        "sign-out": "Log out", "credits-label": "Photo slots available", "saved-label": "Photos stored",
+        "orders-title": "Test purchase history", "library-title": "My photo library",
+        "library-hint": "Upload finished photos up to the number of storage slots from your test purchases. JPG, PNG, or WEBP · up to 15 MB each. Photos stay in this browser. Deleting a photo makes its slot available again.",
+        "upload-finished": "Add finished photos", "local-only-note": "Demo accounts and photos are stored only in this browser on this device. They cannot be recovered after browser data is cleared or you change devices. No real payment or server authentication is provided.",
+        "sign-up-title": "Create an account", "login-title": "Log in", "name-label": "Name",
+        "email-label": "Email", "password-label": "Password (8+ characters)", "sign-up-submit": "Sign up",
+        "login-submit": "Log in", "switch-to-login": "Log in", "switch-to-sign-up": "Sign up",
+        "existing-account": "Already have an account?", "new-account": "New to FirstBloom?", "close": "Close",
+        "empty-orders": "No test purchases yet.", "empty-photos": "No saved photos yet.",
+        "order-summary": (date, qty) => `Test purchase · ${date} · $${(qty * 1.99).toFixed(2)}`,
+        "order-slots": (used, total) => `${used}/${total} photo slots used`,
+        "download": "Download", "delete-photo": "Delete", "confirm-delete": "Delete this photo from your library?",
+        "view-library": "View My Page library", "retry-generation": "Retry photo generation",
+        "credits-needed": "Complete a test purchase in Create a Portrait first.", "upload-limit": "This exceeds your available photo slots.",
+        "file-type-error": "Only JPG, PNG, and WEBP photos are supported.", "file-size-error": "Each photo must be 15 MB or smaller.",
+        "saved-photo": "Photo saved to your library.", "storage-error": "Browser storage is unavailable. Check your storage space and try again.",
+        "account-storage-error": "Could not save account information. Check your browser storage.",
+        "duplicate-email": "This email is already registered. Please log in.", "invalid-login": "The email or password is incorrect.",
+        "password-error": "Enter a password with at least 8 characters.", "name-error": "Enter your name.",
+        "auth-required": "Please sign up or log in before completing a test purchase.",
+        "payment-saved": "Test purchase complete. You were not charged. Upload finished photos from My Page to store them.",
+        "request-saved": "Your request was saved.", "saved-photo-label": "Finished photo",
+        "remove-account-data": "You have been logged out in this browser."
+      }
+    };
+
+    function accountText(key, ...args) {
+      const value = accountTranslations[currentLanguage][key];
+      return typeof value === "function" ? value(...args) : value;
+    }
+
+    function readAccounts() {
+      const stored = localStorage.getItem("firstbom-accounts");
+      const accounts = stored ? JSON.parse(stored) : [];
+      if (!Array.isArray(accounts)) throw new Error("Invalid account data");
+      return accounts;
+    }
+
+    function writeAccounts(accounts) {
+      try {
+        localStorage.setItem("firstbom-accounts", JSON.stringify(accounts));
+      } catch {
+        throw new Error(accountText("account-storage-error"));
+      }
+    }
+
+    function setSession(accountId) {
+      try {
+        localStorage.setItem("firstbom-session", accountId);
+        activeAccountId = accountId;
+      } catch {
+        throw new Error(accountText("account-storage-error"));
+      }
+      updateAccountButton();
+    }
+
+    function activeAccount() {
+      if (!activeAccountId) return null;
+      return readAccounts().find((account) => account.id === activeAccountId) || null;
+    }
+
+    function updateAccountButton() {
+      try {
+        const account = activeAccount();
+        document.querySelector("#account-button").textContent = account
+          ? accountText("account-my-page")
+          : accountText("account-sign-in");
+      } catch (error) {
+        document.querySelector("#account-button").textContent = accountText("account-sign-in");
+        errorMessage.textContent = error.message || accountText("account-storage-error");
+      }
+    }
+
+    function toggleAccountPage(show) {
+      accountPage.hidden = !show;
+      document.querySelectorAll("main > section").forEach((section) => {
+        if (section !== accountPage) section.hidden = show;
+      });
+      if (show) {
+        accountPage.scrollIntoView({ behavior: "smooth", block: "start" });
+        renderMyPage();
+      }
+    }
+
+    function openAuth(mode) {
+      authMode = mode;
+      authError.textContent = "";
+      const isSignUp = mode === "sign-up";
+      document.querySelector("#auth-title").textContent = accountText(isSignUp ? "sign-up-title" : "login-title");
+      document.querySelector("#auth-submit").textContent = accountText(isSignUp ? "sign-up-submit" : "login-submit");
+      document.querySelector("#auth-name-label").hidden = !isSignUp;
+      document.querySelector("#auth-name").required = isSignUp;
+      document.querySelector("#auth-password").autocomplete = isSignUp ? "new-password" : "current-password";
+      document.querySelector("#auth-switch-copy").textContent = accountText(isSignUp ? "existing-account" : "new-account");
+      document.querySelector("#auth-switch").textContent = accountText(isSignUp ? "switch-to-login" : "switch-to-sign-up");
+      if (!authDialog.open) authDialog.showModal();
+      document.querySelector(isSignUp ? "#auth-name" : "#auth-email").focus();
+    }
+
+    function passwordHex(buffer) {
+      return Array.from(new Uint8Array(buffer), (byte) => byte.toString(16).padStart(2, "0")).join("");
+    }
+
+    async function hashPassword(password, salt) {
+      if (!crypto.subtle) throw new Error(accountText("storage-error"));
+      const key = await crypto.subtle.importKey("raw", new TextEncoder().encode(password), "PBKDF2", false, ["deriveBits"]);
+      const bits = await crypto.subtle.deriveBits(
+        { name: "PBKDF2", salt, iterations: 120000, hash: "SHA-256" },
+        key,
+        256
+      );
+      return passwordHex(bits);
+    }
+
+    function openPhotoDatabase() {
+      return new Promise((resolve, reject) => {
+        const request = indexedDB.open("firstbom-photo-library", 1);
+        request.onupgradeneeded = () => {
+          if (!request.result.objectStoreNames.contains("photos")) {
+            request.result.createObjectStore("photos", { keyPath: "id" });
+          }
+        };
+        request.onsuccess = () => resolve(request.result);
+        request.onerror = () => reject(new Error(accountText("storage-error")));
+        request.onblocked = () => reject(new Error(accountText("storage-error")));
+      });
+    }
+
+    async function photoTransaction(mode, action) {
+      const database = await openPhotoDatabase();
+      return new Promise((resolve, reject) => {
+        const transaction = database.transaction("photos", mode);
+        const request = action(transaction.objectStore("photos"));
+        let result;
+        request.onsuccess = () => { result = request.result; };
+        request.onerror = () => reject(new Error(accountText("storage-error")));
+        transaction.oncomplete = () => {
+          database.close();
+          resolve(result);
+        };
+        transaction.onerror = transaction.onabort = () => {
+          database.close();
+          reject(new Error(accountText("storage-error")));
+        };
+      });
+    }
+
+    async function saveGeneratedPhotos(accountId, orderId, imageBlobs) {
+      const database = await openPhotoDatabase();
+      const photos = imageBlobs.map((blob, index) => ({
+        id: crypto.randomUUID(),
+        userId: accountId,
+        orderId,
+        fileName: `firstbom-portrait-${Date.now()}-${index + 1}.jpg`,
+        blob,
+        createdAt: Date.now()
+      }));
+      return new Promise((resolve, reject) => {
+        const transaction = database.transaction("photos", "readwrite");
+        const store = transaction.objectStore("photos");
+        photos.forEach((photo) => store.add(photo));
+        transaction.oncomplete = () => {
+          database.close();
+          resolve(photos);
+        };
+        transaction.onerror = transaction.onabort = () => {
+          database.close();
+          reject(new Error(accountText("storage-error")));
+        };
+      });
+    }
+
+    async function savedPhotosFor(accountId) {
+      const allPhotos = await photoTransaction("readonly", (store) => store.getAll());
+      return allPhotos.filter((photo) => photo.userId === accountId);
+    }
+
+    async function renderMyPage() {
+      let account;
+      try {
+        account = activeAccount();
+      } catch (error) {
+        accountError.textContent = error.message || accountText("account-storage-error");
+        return;
+      }
+      if (!account) {
+        toggleAccountPage(false);
+        return;
+      }
+      const ordersElement = document.querySelector("#account-orders");
+      const photoGridElement = document.querySelector("#saved-photo-grid");
+      libraryObjectUrls.forEach((url) => URL.revokeObjectURL(url));
+      libraryObjectUrls = [];
+      ordersElement.replaceChildren();
+      photoGridElement.replaceChildren();
+      document.querySelector("#account-email").textContent = `${account.name} · ${account.email}`;
+      try {
+        const photos = await savedPhotosFor(account.id);
+        const orders = Array.isArray(account.orders) ? account.orders : [];
+        const usedByOrder = new Map();
+        photos.forEach((photo) => usedByOrder.set(photo.orderId, (usedByOrder.get(photo.orderId) || 0) + 1));
+        const totalSlots = orders.reduce((sum, order) => sum + order.quantity, 0);
+        document.querySelector("#saved-count").textContent = String(photos.length);
+        document.querySelector("#available-credits").textContent = String(Math.max(0, totalSlots - photos.length));
+
+        if (orders.length === 0) {
+          const empty = document.createElement("p");
+          empty.className = "account-empty";
+          empty.textContent = accountText("empty-orders");
+          ordersElement.append(empty);
+        }
+        orders.slice().reverse().forEach((order) => {
+          const row = document.createElement("div");
+          row.className = "account-order";
+          const summary = document.createElement("span");
+          summary.textContent = accountText("order-summary", new Date(order.createdAt).toLocaleDateString(currentLanguage), order.quantity, usedByOrder.get(order.id) || 0, order.quantity);
+          const slots = document.createElement("small");
+          slots.textContent = accountText("order-slots", usedByOrder.get(order.id) || 0, order.quantity);
+          row.append(summary, slots);
+          ordersElement.append(row);
+        });
+
+        if (photos.length === 0) {
+          const empty = document.createElement("p");
+          empty.className = "account-empty";
+          empty.textContent = accountText("empty-photos");
+          photoGridElement.append(empty);
+        }
+        photos.sort((a, b) => b.createdAt - a.createdAt).forEach((photo) => {
+          const card = document.createElement("article");
+          card.className = "saved-photo";
+          const image = document.createElement("img");
+          const url = URL.createObjectURL(photo.blob);
+          libraryObjectUrls.push(url);
+          image.src = url;
+          image.alt = accountText("saved-photo-label");
+          const info = document.createElement("div");
+          info.className = "saved-photo-info";
+          const name = document.createElement("strong");
+          name.textContent = photo.fileName;
+          const actions = document.createElement("div");
+          actions.className = "saved-photo-actions";
+          const download = document.createElement("a");
+          download.href = url;
+          download.download = photo.fileName;
+          download.textContent = accountText("download");
+          const remove = document.createElement("button");
+          remove.type = "button";
+          remove.textContent = accountText("delete-photo");
+          remove.addEventListener("click", async () => {
+            if (!confirm(accountText("confirm-delete"))) return;
+            try {
+              await photoTransaction("readwrite", (store) => store.delete(photo.id));
+              await renderMyPage();
+            } catch (error) {
+              accountError.textContent = error.message || accountText("storage-error");
+            }
+          });
+          actions.append(download, remove);
+          info.append(name, actions);
+          card.append(image, info);
+          photoGridElement.append(card);
+        });
+        accountError.textContent = "";
+      } catch (error) {
+        accountError.textContent = error.message || accountText("storage-error");
+      }
+    }
 
     function translatePage(language) {
       currentLanguage = language;
@@ -509,6 +1072,12 @@
       document.querySelectorAll("[data-i18n-placeholder]").forEach((element) => {
         element.placeholder = strings[element.dataset.i18nPlaceholder];
       });
+      document.querySelectorAll("[data-account-i18n]").forEach((element) => {
+        element.textContent = accountText(element.dataset.accountI18n);
+      });
+      document.querySelectorAll("[data-account-aria]").forEach((element) => {
+        element.setAttribute("aria-label", accountText(element.dataset.accountAria));
+      });
       document.querySelectorAll("[data-language]").forEach((button) => {
         button.setAttribute("aria-pressed", String(button.dataset.language === language));
       });
@@ -517,7 +1086,99 @@
       errorMessage.textContent = "";
       renderPhotos();
       updateHanbokStyleVisibility();
+      updateAccountButton();
+      if (!accountPage.hidden) renderMyPage();
+      renderReviews();
     }
+
+    function readReviews() {
+      const stored = localStorage.getItem("firstbom-reviews");
+      if (!stored) return [];
+      const reviews = JSON.parse(stored);
+      if (!Array.isArray(reviews) || reviews.some((review) =>
+        !review || typeof review.name !== "string" || typeof review.text !== "string" ||
+        !Number.isInteger(review.rating) || review.rating < 1 || review.rating > 5 ||
+        !Number.isFinite(review.createdAt) || !Number.isFinite(new Date(review.createdAt).getTime())
+      )) {
+        throw new Error(translations[currentLanguage]["review-storage-error"]);
+      }
+      return reviews;
+    }
+
+    function renderReviews() {
+      reviewItems.replaceChildren();
+      reviewStatus.textContent = "";
+      reviewStatus.classList.remove("success", "error");
+      try {
+        const reviews = readReviews();
+        if (reviews.length === 0) {
+          const empty = document.createElement("p");
+          empty.className = "review-empty";
+          empty.textContent = translations[currentLanguage]["reviews-empty"];
+          reviewItems.append(empty);
+          return;
+        }
+        for (const review of reviews) {
+          const card = document.createElement("article");
+          card.className = "review-card";
+          const header = document.createElement("div");
+          header.className = "review-card-header";
+          const name = document.createElement("strong");
+          name.className = "review-author";
+          name.textContent = review.name;
+          const date = document.createElement("time");
+          date.className = "review-date";
+          date.dateTime = new Date(review.createdAt).toISOString();
+          date.textContent = new Intl.DateTimeFormat(
+            translations[currentLanguage]["review-date-locale"],
+            { dateStyle: "medium" }
+          ).format(review.createdAt);
+          const stars = document.createElement("div");
+          stars.className = "review-stars";
+          stars.setAttribute("aria-label", `${review.rating} / 5`);
+          stars.textContent = `${"★".repeat(review.rating)}${"☆".repeat(5 - review.rating)}`;
+          const text = document.createElement("p");
+          text.className = "review-copy";
+          text.textContent = review.text;
+          header.append(name, date);
+          card.append(header, stars, text);
+          reviewItems.append(card);
+        }
+      } catch {
+        reviewItems.replaceChildren();
+        reviewStatus.textContent = translations[currentLanguage]["review-storage-error"];
+        reviewStatus.classList.add("error");
+      }
+    }
+
+    reviewForm.addEventListener("submit", (event) => {
+      event.preventDefault();
+      const formData = new FormData(reviewForm);
+      const name = String(formData.get("name") || "").trim();
+      const text = String(formData.get("text") || "").trim();
+      const rating = Number(formData.get("rating"));
+      if (!name || !text || !Number.isInteger(rating) || rating < 1 || rating > 5) {
+        reviewStatus.textContent = translations[currentLanguage]["review-invalid"];
+        reviewStatus.classList.remove("success");
+        reviewStatus.classList.add("error");
+        return;
+      }
+      try {
+        const reviews = readReviews();
+        reviews.unshift({ name, text, rating, createdAt: Date.now() });
+        localStorage.setItem("firstbom-reviews", JSON.stringify(reviews));
+        reviewForm.reset();
+        renderReviews();
+        if (!reviewStatus.classList.contains("error")) {
+          reviewStatus.textContent = translations[currentLanguage]["review-saved"];
+          reviewStatus.classList.add("success");
+        }
+      } catch {
+        reviewStatus.textContent = translations[currentLanguage]["review-storage-error"];
+        reviewStatus.classList.remove("success");
+        reviewStatus.classList.add("error");
+      }
+    });
 
     function updateHanbokStyleVisibility() {
       const isMoonJar = selectedTheme === "달항아리";
@@ -626,6 +1287,322 @@
     document.querySelectorAll("[data-language]").forEach((button) => {
       button.addEventListener("click", () => translatePage(button.dataset.language));
     });
+    document.querySelector("#account-button").addEventListener("click", () => {
+      try {
+        if (activeAccount()) {
+          toggleAccountPage(accountPage.hidden);
+        } else {
+          openAuth("sign-up");
+        }
+      } catch (error) {
+        errorMessage.textContent = error.message || accountText("account-storage-error");
+      }
+    });
+    document.querySelectorAll('a[href="#studio"], a[href="#how"]').forEach((link) => {
+      link.addEventListener("click", () => {
+        if (!accountPage.hidden) toggleAccountPage(false);
+      });
+    });
+    document.querySelector("#brand-home").addEventListener("click", (event) => {
+      event.preventDefault();
+      toggleAccountPage(false);
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    });
+    document.querySelector("#auth-close").addEventListener("click", () => authDialog.close());
+    authDialog.addEventListener("close", () => {
+      if (checkoutPending) {
+        checkoutPending = false;
+        errorMessage.textContent = "";
+      }
+    });
+    document.querySelector("#auth-switch").addEventListener("click", () => {
+      openAuth(authMode === "sign-up" ? "login" : "sign-up");
+    });
+    document.querySelector("#show-library-button").addEventListener("click", () => {
+      toggleAccountPage(true);
+    });
+    document.querySelector("#sign-out-button").addEventListener("click", () => {
+      try {
+        localStorage.removeItem("firstbom-session");
+        activeAccountId = null;
+        updateAccountButton();
+        toggleAccountPage(false);
+      } catch {
+        accountError.textContent = accountText("account-storage-error");
+      }
+    });
+    authForm.addEventListener("submit", async (event) => {
+      event.preventDefault();
+      authError.textContent = "";
+      const email = document.querySelector("#auth-email").value.trim().toLowerCase();
+      const password = document.querySelector("#auth-password").value;
+      const name = document.querySelector("#auth-name").value.trim();
+      try {
+        if (password.length < 8) throw new Error(accountText("password-error"));
+        const accounts = readAccounts();
+        let account;
+        if (authMode === "sign-up") {
+          if (!name) throw new Error(accountText("name-error"));
+          if (accounts.some((candidate) => candidate.email === email)) {
+            throw new Error(accountText("duplicate-email"));
+          }
+          const salt = crypto.getRandomValues(new Uint8Array(16));
+          account = {
+            id: crypto.randomUUID(),
+            name,
+            email,
+            salt: passwordHex(salt),
+            passwordHash: await hashPassword(password, salt),
+            orders: []
+          };
+          accounts.push(account);
+          writeAccounts(accounts);
+        } else {
+          account = accounts.find((candidate) => candidate.email === email);
+          if (!account || await hashPassword(password, Uint8Array.from(account.salt.match(/.{2}/g), (byte) => parseInt(byte, 16))) !== account.passwordHash) {
+            throw new Error(accountText("invalid-login"));
+          }
+        }
+        setSession(account.id);
+        authForm.reset();
+        authDialog.close();
+        if (checkoutPending) {
+          checkoutPending = false;
+          await completeTestPurchase();
+        } else {
+          toggleAccountPage(true);
+        }
+      } catch (error) {
+        authError.textContent = error.message || accountText("account-storage-error");
+      }
+    });
+
+    function validPurchaseRequest() {
+      const strings = translations[currentLanguage];
+      if (selectedFiles.length === 0) {
+        errorMessage.textContent = strings["error-empty-photo"];
+        fileInput.focus();
+        return false;
+      }
+      if (!selectedGender) {
+        errorMessage.textContent = strings["error-gender"];
+        document.querySelector('input[name="baby-gender"]').focus();
+        return false;
+      }
+      if (!promptInput.value.trim()) {
+        errorMessage.textContent = strings["error-prompt"];
+        promptInput.focus();
+        return false;
+      }
+      if (!document.querySelector("#ai-consent").checked) {
+        errorMessage.textContent = strings["error-consent"];
+        document.querySelector("#ai-consent").focus();
+        return false;
+      }
+      errorMessage.textContent = "";
+      return true;
+    }
+
+    function clearGeneratedPreview() {
+      generatedPreviewUrls.forEach((url) => URL.revokeObjectURL(url));
+      generatedPreviewUrls = [];
+      document.querySelector("#generated-grid").replaceChildren();
+      document.querySelector("#show-library-button").hidden = true;
+    }
+
+    async function ensureAiAvailable() {
+      let response;
+      try {
+        response = await fetch("/api/status", { cache: "no-store" });
+      } catch {
+        throw new Error(accountText("server-unavailable"));
+      }
+      if (!response.ok) throw new Error(accountText("server-unavailable"));
+      let status;
+      try {
+        status = await response.json();
+      } catch {
+        throw new Error(accountText("server-unavailable"));
+      }
+      if (!status.configured) throw new Error(accountText("ai-not-configured"));
+    }
+
+    function fileToDataUrl(file) {
+      return new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.onload = () => resolve(reader.result);
+        reader.onerror = () => reject(new Error(accountText("generation_failed")));
+        reader.readAsDataURL(file);
+      });
+    }
+
+    function createImageBlob(base64, mimeType) {
+      const binary = atob(base64);
+      const bytes = new Uint8Array(binary.length);
+      for (let index = 0; index < binary.length; index += 1) {
+        bytes[index] = binary.charCodeAt(index);
+      }
+      return new Blob([bytes], { type: mimeType });
+    }
+
+    function buildPortraitPrompt() {
+      const themePrompts = {
+        "달항아리": "a refined Korean moon-jar studio portrait, a warm ivory backdrop, tasteful traditional Korean styling",
+        "햇살 정원": "a sunlit spring garden with soft natural greenery, gentle warm daylight, and a timeless family-photography look",
+        "동화 속 주인공": "a gentle storybook-inspired scene with delicate pastel details, whimsical but photorealistic styling"
+      };
+      const hanbok = selectedTheme === "달항아리"
+        ? `Dress the baby in a tasteful ${hanbokStyleInput.value === "saekdong" ? "traditional saekdong hanbok" : "soft pastel hanbok"}.`
+        : "Dress the baby in a tasteful age-appropriate first-birthday outfit.";
+      return [
+        "Create a polished, photorealistic first-birthday portrait of the same baby shown in the reference photos.",
+        "Preserve the baby's recognizable facial identity, natural age, skin tone, and distinctive facial features.",
+        `Visual direction: ${themePrompts[selectedTheme]}.`,
+        hanbok,
+        promptInput.value.trim(),
+        "Show a wholesome, fully clothed child in a safe family portrait. Do not add text, logos, or watermarks. Use a vertical portrait composition with natural-looking light."
+      ].join(" ");
+    }
+
+    async function generateForOrder(account, order) {
+      const images = await Promise.all(selectedFiles.map(({ file }) => fileToDataUrl(file)));
+      let response;
+      try {
+        response = await fetch("/api/generate", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            prompt: buildPortraitPrompt(),
+            quantity: order.quantity,
+            images: images.map((dataUrl) => ({ dataUrl }))
+          })
+        });
+      } catch {
+        throw new Error(accountText("server-unavailable"));
+      }
+      let resultData;
+      try {
+        resultData = await response.json();
+      } catch {
+        throw new Error(accountText("generation_failed"));
+      }
+      if (!response.ok) {
+        throw new Error(accountText(resultData.error) || accountText("generation_failed"));
+      }
+      if (!Array.isArray(resultData.images) || resultData.images.length !== order.quantity) {
+        throw new Error(accountText("incomplete_generation"));
+      }
+      const blobs = resultData.images.map((image) => createImageBlob(image, resultData.mimeType || "image/jpeg"));
+      const savedPhotos = await saveGeneratedPhotos(account.id, order.id, blobs);
+      const gallery = document.querySelector("#generated-grid");
+      clearGeneratedPreview();
+      savedPhotos.forEach((photo) => {
+        const url = URL.createObjectURL(photo.blob);
+        generatedPreviewUrls.push(url);
+        const image = document.createElement("img");
+        image.src = url;
+        image.alt = photo.fileName;
+        gallery.append(image);
+      });
+      document.querySelector("#show-library-button").hidden = false;
+      resultTitle.textContent = translations[currentLanguage]["order-title"](
+        order.quantity,
+        (order.quantity * 1.99).toFixed(2)
+      );
+      resultMessage.textContent = accountText("generation-saved");
+      retryOrderId = null;
+      document.querySelector("#create-button").textContent = translations[currentLanguage]["order-button"];
+      if (!accountPage.hidden) await renderMyPage();
+    }
+
+    async function completeTestPurchase(existingOrder = null) {
+      const strings = translations[currentLanguage];
+      const button = document.querySelector("#create-button");
+      let account = null;
+      let order = existingOrder;
+      let orderCreated = false;
+      button.disabled = true;
+      result.classList.add("visible");
+      clearGeneratedPreview();
+      try {
+        await ensureAiAvailable();
+        const accounts = readAccounts();
+        account = accounts.find((candidate) => candidate.id === activeAccountId);
+        if (!account) throw new Error(accountText("account-storage-error"));
+        if (!Array.isArray(account.orders)) account.orders = [];
+        if (!order) {
+          order = { id: crypto.randomUUID(), quantity: Number(quantityInput.value), createdAt: Date.now() };
+          account.orders.push(order);
+          writeAccounts(accounts);
+          orderCreated = true;
+        }
+        resultTitle.textContent = strings["order-title"](order.quantity, (order.quantity * 1.99).toFixed(2));
+        resultMessage.textContent = accountText("photos-sent");
+        result.scrollIntoView({ behavior: "smooth", block: "nearest" });
+        await generateForOrder(account, order);
+        if (!accountPage.hidden) await renderMyPage();
+      } catch (error) {
+        if (existingOrder || orderCreated) {
+          retryOrderId = order.id;
+          button.textContent = accountText("retry-generation");
+        }
+        resultTitle.textContent = strings["order-title"](
+          order?.quantity || quantityInput.value,
+          ((order?.quantity || Number(quantityInput.value)) * 1.99).toFixed(2)
+        );
+        resultMessage.textContent = error.message || accountText("generation_failed");
+        result.classList.add("visible");
+      } finally {
+        button.disabled = false;
+      }
+    }
+
+    document.querySelector("#finished-photo-input").addEventListener("change", async (event) => {
+      const input = event.currentTarget;
+      const files = Array.from(input.files || []);
+      input.value = "";
+      accountError.classList.remove("success");
+      accountError.textContent = "";
+      try {
+        const account = activeAccount();
+        if (!account) throw new Error(accountText("auth-required"));
+        const photos = await savedPhotosFor(account.id);
+        const orders = Array.isArray(account.orders) ? account.orders : [];
+        const totalSlots = orders.reduce((sum, order) => sum + order.quantity, 0);
+        const available = Math.max(0, totalSlots - photos.length);
+        if (available === 0) throw new Error(accountText("credits-needed"));
+        if (files.length > available) throw new Error(accountText("upload-limit"));
+        const allowedTypes = ["image/jpeg", "image/png", "image/webp"];
+        for (const file of files) {
+          if (!allowedTypes.includes(file.type)) throw new Error(`${file.name}: ${accountText("file-type-error")}`);
+          if (file.size > 15 * 1024 * 1024) throw new Error(`${file.name}: ${accountText("file-size-error")}`);
+        }
+
+        const usage = new Map();
+        photos.forEach((photo) => usage.set(photo.orderId, (usage.get(photo.orderId) || 0) + 1));
+        for (const file of files) {
+          const order = orders.find((candidate) => (usage.get(candidate.id) || 0) < candidate.quantity);
+          if (!order) throw new Error(accountText("upload-limit"));
+          const photo = {
+            id: crypto.randomUUID(),
+            userId: account.id,
+            orderId: order.id,
+            fileName: file.name,
+            blob: file,
+            createdAt: Date.now()
+          };
+          await photoTransaction("readwrite", (store) => store.add(photo));
+          usage.set(order.id, (usage.get(order.id) || 0) + 1);
+        }
+        await renderMyPage();
+        accountError.textContent = accountText("saved-photo");
+        accountError.classList.add("success");
+      } catch (error) {
+        await renderMyPage();
+        accountError.textContent = error.message || accountText("storage-error");
+      }
+    });
+
     const savedLanguage = (() => {
       try {
         return localStorage.getItem("firstbom-language");
@@ -638,37 +1615,34 @@
       : (navigator.languages || [navigator.language]).some((language) => language.toLowerCase().startsWith("en")) ? "en" : "ko";
     translatePage(preferredLanguage);
 
-    document.querySelector("#create-button").addEventListener("click", () => {
-      const strings = translations[currentLanguage];
-      if (selectedFiles.length === 0) {
-        errorMessage.textContent = strings["error-empty-photo"];
-        fileInput.focus();
-        return;
+    document.querySelector("#create-button").addEventListener("click", async () => {
+      if (!validPurchaseRequest()) return;
+      const button = document.querySelector("#create-button");
+      button.disabled = true;
+      try {
+        await ensureAiAvailable();
+        if (retryOrderId) {
+          const account = activeAccount();
+          const order = account?.orders?.find((candidate) => candidate.id === retryOrderId);
+          if (order) {
+            await completeTestPurchase(order);
+            return;
+          }
+          retryOrderId = null;
+          button.textContent = translations[currentLanguage]["order-button"];
+        }
+        if (!activeAccount()) {
+          checkoutPending = true;
+          errorMessage.textContent = accountText("auth-required");
+          openAuth("sign-up");
+          return;
+        }
+        await completeTestPurchase();
+      } catch (error) {
+        errorMessage.textContent = error.message || accountText("account-storage-error");
+      } finally {
+        button.disabled = false;
       }
-      if (!selectedGender) {
-        errorMessage.textContent = strings["error-gender"];
-        document.querySelector('input[name="baby-gender"]').focus();
-        return;
-      }
-      if (!promptInput.value.trim()) {
-        errorMessage.textContent = strings["error-prompt"];
-        promptInput.focus();
-        return;
-      }
-      errorMessage.textContent = "";
-      const price = (Number(quantityInput.value) * 1.99).toFixed(2);
-      resultTitle.textContent = strings["order-title"](quantityInput.value, price);
-      const selectedStyle = selectedTheme === "달항아리"
-        ? `${strings.themes[selectedTheme]} (${selectedGender === "girl" ? strings["hanbok-pastel"] : strings[`hanbok-${hanbokStyleInput.value}`]})`
-        : strings.themes[selectedTheme];
-      resultMessage.textContent = strings["order-message"](
-        selectedFiles.length,
-        strings.genders[selectedGender],
-        selectedStyle,
-        promptInput.value.trim()
-      );
-      result.classList.add("visible");
-      result.scrollIntoView({ behavior: "smooth", block: "nearest" });
     });
   </script>
 </body>
