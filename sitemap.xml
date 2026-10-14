@@ -1,6 +1,28 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+        xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
     <loc>https://babyphoto-v1.pages.dev/</loc>
+    <lastmod>2026-10-14</lastmod>
+    <xhtml:link rel="alternate" hreflang="ko" href="https://babyphoto-v1.pages.dev/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://babyphoto-v1.pages.dev/?lang=en"/>
+    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://babyphoto-v1.pages.dev/?lang=zh"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://babyphoto-v1.pages.dev/"/>
+  </url>
+  <url>
+    <loc>https://babyphoto-v1.pages.dev/?lang=en</loc>
+    <lastmod>2026-10-14</lastmod>
+    <xhtml:link rel="alternate" hreflang="ko" href="https://babyphoto-v1.pages.dev/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://babyphoto-v1.pages.dev/?lang=en"/>
+    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://babyphoto-v1.pages.dev/?lang=zh"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://babyphoto-v1.pages.dev/"/>
+  </url>
+  <url>
+    <loc>https://babyphoto-v1.pages.dev/?lang=zh</loc>
+    <lastmod>2026-10-14</lastmod>
+    <xhtml:link rel="alternate" hreflang="ko" href="https://babyphoto-v1.pages.dev/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://babyphoto-v1.pages.dev/?lang=en"/>
+    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://babyphoto-v1.pages.dev/?lang=zh"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://babyphoto-v1.pages.dev/"/>
   </url>
 </urlset>

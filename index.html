@@ -7,6 +7,10 @@
   <meta name="description" content="아기 첫돌 기념사진 스타일과 한복 색상, 촬영 분위기를 살펴보고 우리 가족만의 특별한 첫 생일 사진을 계획해 보세요.">
   <meta name="robots" content="index, follow, max-image-preview:large">
   <link rel="canonical" href="https://babyphoto-v1.pages.dev/">
+  <link rel="alternate" hreflang="ko" href="https://babyphoto-v1.pages.dev/">
+  <link rel="alternate" hreflang="en" href="https://babyphoto-v1.pages.dev/?lang=en">
+  <link rel="alternate" hreflang="zh-CN" href="https://babyphoto-v1.pages.dev/?lang=zh">
+  <link rel="alternate" hreflang="x-default" href="https://babyphoto-v1.pages.dev/">
   <link rel="icon" type="image/svg+xml" href="./favicon.svg">
   <meta property="og:type" content="website">
   <meta property="og:site_name" content="첫봄">
@@ -27,33 +31,24 @@
           "@id": "https://babyphoto-v1.pages.dev/#website",
           "url": "https://babyphoto-v1.pages.dev/",
           "name": "첫봄",
-          "alternateName": "FirstBloom",
-          "inLanguage": "ko"
+          "alternateName": ["FirstBloom", "第一春"],
+          "inLanguage": ["ko", "en", "zh-CN"]
         },
         {
           "@type": "Organization",
           "@id": "https://babyphoto-v1.pages.dev/#organization",
           "name": "첫봄",
-          "alternateName": "FirstBloom",
+          "alternateName": ["FirstBloom", "第一春"],
           "url": "https://babyphoto-v1.pages.dev/",
           "logo": {
             "@type": "ImageObject",
             "url": "https://babyphoto-v1.pages.dev/favicon.svg"
           }
-        },
-        {
-          "@type": "WebPage",
-          "@id": "https://babyphoto-v1.pages.dev/#webpage",
-          "url": "https://babyphoto-v1.pages.dev/",
-          "name": "첫봄 | 아기 첫돌 기념사진 아이디어",
-          "description": "아기 첫돌 기념사진 스타일과 한복 색상, 촬영 분위기를 살펴보고 우리 가족만의 특별한 첫 생일 사진을 계획해 보세요.",
-          "inLanguage": "ko",
-          "isPartOf": { "@id": "https://babyphoto-v1.pages.dev/#website" },
-          "about": { "@id": "https://babyphoto-v1.pages.dev/#organization" }
         }
       ]
     }
   </script>
+  <script id="page-schema" type="application/ld+json"></script>
   <!-- Google tag (gtag.js) -->
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-WNZMH39EJ2"></script>
   <script>
@@ -64,7 +59,7 @@
     gtag('config', 'G-WNZMH39EJ2');
   </script>
   <style>
-    @import url('https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=Noto+Sans+KR:wght@400;500;600;700;800&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=Noto+Sans+KR:wght@400;500;600;700;800&family=Noto+Sans+SC:wght@400;500;600;700;800&display=swap');
 
     :root {
       color-scheme: light;
@@ -87,8 +82,10 @@
       font-family: "Noto Sans KR", "Avenir Next", "Segoe UI", sans-serif;
       -webkit-font-smoothing: antialiased;
     }
+    :lang(zh-CN) body { font-family: "Noto Sans SC", "PingFang SC", "Microsoft YaHei", sans-serif; }
     :lang(en) h1, :lang(en) h2 { font-family: "DM Serif Display", Georgia, serif; font-weight: 400; letter-spacing: -.035em; }
     :lang(en) .brand { letter-spacing: -.04em; }
+    :lang(zh-CN) .brand { letter-spacing: 0; }
     button, input, select, textarea { font: inherit; }
     button { cursor: pointer; }
     a { color: inherit; text-decoration: none; }
@@ -122,7 +119,7 @@
     .hero-grid { display: grid; grid-template-columns: 1fr 1fr; align-items: center; gap: 60px; }
     .eyebrow { display: flex; align-items: center; gap: 9px; color: var(--green); font-size: 12px; font-weight: 800; letter-spacing: .09em; }
     .eyebrow span { width: 23px; height: 1px; background: var(--green); }
-    h1 { margin: 22px 0 18px; font-size: clamp(40px, 5.2vw, 66px); line-height: 1.23; letter-spacing: -.075em; font-weight: 700; }
+    h1 { margin: 24px 0; font-size: clamp(40px, 5.2vw, 66px); line-height: 1.32; letter-spacing: -.075em; font-weight: 700; }
     h1 em { color: var(--green); font-style: normal; }
     .hero-copy { margin: 0; color: #747b73; font-size: 15px; line-height: 1.9; }
     .hero-actions { display: flex; align-items: center; gap: 17px; margin-top: 30px; }
@@ -368,6 +365,7 @@
       .brand { gap: 5px; font-size: 17px; }
       .brand-mark { width: 27px; height: 27px; }
       .nav-end { gap: 4px; }
+      .language-switch button { padding: 7px 5px; font-size: 9px; }
       #account-button { padding: 7px 8px; font-size: 9px; }
       .hero { padding-top: 38px; }
       .hero-art { min-height: 300px; }
@@ -388,19 +386,21 @@
 </head>
 <body>
   <header>
-    <nav class="wrap nav" aria-label="주 메뉴">
+    <nav class="wrap nav" aria-label="주 메뉴" data-i18n-aria="main-menu">
       <a class="brand" id="brand-home" href="#" aria-label="첫봄 홈" data-i18n-aria="brand-home">
         <span class="brand-mark" aria-hidden="true">✿</span> <span data-i18n="brand-name">첫봄</span>
       </a>
       <div class="nav-end">
       <div class="nav-links">
         <a href="#how" data-i18n="nav-how">이용 방법</a>
+        <a href="#faq" data-i18n="nav-faq">자주 묻는 질문</a>
         <a href="#studio" data-i18n="nav-studio">사진 만들기</a>
         <a class="nav-cta" href="#studio"><span data-i18n="nav-cta">무료로 시작하기</span> <span aria-hidden="true">→</span></a>
       </div>
       <div class="language-switch" role="group" aria-label="언어 선택" data-i18n-aria="language-label">
         <button type="button" data-language="ko" aria-pressed="true">한국어</button>
         <button type="button" data-language="en" aria-pressed="false">EN</button>
+        <button type="button" data-language="zh" aria-pressed="false">简体中文</button>
       </div>
       <button class="account-nav" id="account-button" type="button" data-account-i18n="account-sign-in">로그인 / 회원가입</button>
       </div>
@@ -411,13 +411,13 @@
     <section class="hero">
       <div class="wrap hero-grid">
         <div>
-          <div class="eyebrow"><span></span> A LITTLE MAGIC FOR THEIR FIRST YEAR</div>
+          <div class="eyebrow"><span></span> <span data-i18n="hero-eyebrow">A LITTLE MAGIC FOR THEIR FIRST YEAR</span></div>
           <h1 data-i18n="hero-title">우리 아기의<br><em>첫 번째 생일</em>,<br>더 특별하게</h1>
           <p class="hero-copy" data-i18n="hero-copy">아기 얼굴 사진을 최대 세 장 올리고 원하는 프롬프트를 적어주세요.<br>우리 아기만을 위한 특별한 돌 기념사진을 준비해 보세요.</p>
           <div class="hero-actions">
             <a class="button-primary" href="#studio"><span data-i18n="hero-button">우리 아기 사진으로 만들기</span> <span aria-hidden="true">→</span></a>
           </div>
-          <div class="trust-line"><b aria-label="별점 5점" data-i18n-aria="rating-label">★★★★★</b> <span data-i18n="trust">소중한 첫 순간을 오래 간직하도록</span></div>
+          <div class="trust-line"><b aria-hidden="true">✿</b> <span data-i18n="trust">소중한 첫 순간을 오래 간직하도록</span></div>
         </div>
         <div class="hero-art" role="img" aria-label="포근한 초록빛 정원에서 미소 짓는 아기의 일러스트" data-i18n-aria="hero-art">
           <div class="art-backdrop">
@@ -435,7 +435,7 @@
     <section class="section section-white" id="how">
       <div class="wrap">
         <div class="section-heading">
-          <div class="eyebrow">HOW IT WORKS</div>
+          <div class="eyebrow" data-i18n="steps-eyebrow">HOW IT WORKS</div>
           <h2 data-i18n="steps-title">간단하게, 세 단계면 돼요</h2>
           <p class="section-subtitle" data-i18n="steps-copy">아기 사진과 원하는 설명을 보내 특별한 순간을 준비해 보세요.</p>
         </div>
@@ -454,6 +454,34 @@
             <div class="step-number">03</div>
             <h3 data-i18n="step3-title">특별한 돌사진을 간직해요</h3>
             <p data-i18n="step3-copy">한 장당 $1.99로 필요한 수량을 선택하는 서비스예요.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section section-white" id="faq">
+      <div class="wrap">
+        <div class="section-heading">
+          <div class="eyebrow">FAQ</div>
+          <h2 data-i18n="faq-title">자주 묻는 질문</h2>
+          <p class="section-subtitle" data-i18n="faq-copy">첫봄의 AI 돌사진 생성 방식과 데모 이용 조건을 확인해 보세요.</p>
+        </div>
+        <div class="steps">
+          <article class="step-card">
+            <h3 data-i18n="faq-photos-question">AI로 아기 돌사진을 어떻게 만드나요?</h3>
+            <p data-i18n="faq-photos-answer">아기 얼굴이 잘 보이는 사진을 최대 3장 올리고, 원하는 의상·배경·분위기를 적어 생성 요청을 보내세요. 생성 결과는 이 브라우저의 사진 보관함에 저장됩니다.</p>
+          </article>
+          <article class="step-card">
+            <h3 data-i18n="faq-payment-question">사진 생성에 실제 결제가 필요한가요?</h3>
+            <p data-i18n="faq-payment-answer">아니요. 현재 결제 화면은 테스트 전용이며 실제 청구는 없습니다. 다만 AI 사진 생성을 요청하면 운영자의 OpenAI API 계정에 사용료가 발생할 수 있습니다.</p>
+          </article>
+          <article class="step-card">
+            <h3 data-i18n="faq-privacy-question">업로드한 아기 사진은 어디로 전송되나요?</h3>
+            <p data-i18n="faq-privacy-answer">사진 생성에 동의하면 선택한 사진과 설명이 OpenAI 이미지 API로 전송됩니다. 생성 결과와 보관 사진은 현재 브라우저에 저장되며, 서버에 보관하지 않습니다.</p>
+          </article>
+          <article class="step-card">
+            <h3 data-i18n="faq-hosting-question">홈페이지에서 바로 AI 사진을 만들 수 있나요?</h3>
+            <p data-i18n="faq-hosting-answer">현재 공개 홈페이지는 정적 미리보기라 AI 생성 API가 포함되어 있지 않습니다. 생성 데모를 실행하려면 README 안내에 따라 Node 서버와 OpenAI API 키를 설정해야 합니다.</p>
           </article>
         </div>
       </div>
@@ -499,7 +527,7 @@
     <section class="section" id="studio">
       <div class="wrap studio">
         <div class="studio-intro">
-          <div class="eyebrow">MAKE A MEMORY</div>
+          <div class="eyebrow" data-i18n="studio-eyebrow">MAKE A MEMORY</div>
           <h2 data-i18n="studio-title">우리 아기만의<br>돌사진 만들기</h2>
           <p data-i18n="studio-copy">아기 얼굴 사진을 최대 세 장 올리고, 원하는 결과를 프롬프트로 자세히 적어주세요.</p>
           <div class="privacy-note"><b data-i18n="privacy-title">🔒 사진은 소중하게 다룰게요.</b><br><span data-i18n="privacy-copy">생성 요청 시 선택한 아기 사진과 프롬프트가 OpenAI 이미지 API로 전송됩니다. 생성 결과는 이 브라우저의 사진 보관함에 저장됩니다.</span></div>
@@ -687,14 +715,24 @@
       ko: {
         title: "첫봄 | 아기 첫돌 기념사진 아이디어", description: "아기 첫돌 기념사진 스타일과 한복 색상, 촬영 분위기를 살펴보고 우리 가족만의 특별한 첫 생일 사진을 계획해 보세요.",
         "brand-home": "첫봄 홈", "brand-name": "첫봄",
-        "language-label": "언어 선택", "nav-how": "이용 방법", "nav-studio": "사진 만들기", "nav-cta": "무료로 시작하기",
+        "language-label": "언어 선택", "main-menu": "주 메뉴", "nav-how": "이용 방법", "nav-faq": "자주 묻는 질문", "nav-studio": "사진 만들기", "nav-cta": "무료로 시작하기",
+        "hero-eyebrow": "A LITTLE MAGIC FOR THEIR FIRST YEAR",
         "hero-title": "우리 아기의<br><em>첫 번째 생일</em>,<br>더 특별하게", "hero-copy": "아기 얼굴 사진을 최대 세 장 올리고 원하는 프롬프트를 적어주세요.<br>우리 아기만을 위한 특별한 돌 기념사진을 준비해 보세요.",
-        "hero-button": "우리 아기 사진으로 만들기", "rating-label": "별점 5점", trust: "소중한 첫 순간을 오래 간직하도록",
+        "hero-button": "우리 아기 사진으로 만들기", trust: "소중한 첫 순간을 오래 간직하도록",
         "hero-art": "포근한 초록빛 정원에서 미소 짓는 아기의 일러스트", "floating-title": "우리 아기의 첫 번째 봄", "floating-copy": "세상에 하나뿐인 기념사진",
-        "steps-title": "간단하게, 세 단계면 돼요", "steps-copy": "아기 사진과 원하는 설명을 보내 특별한 순간을 준비해 보세요.",
+        "steps-eyebrow": "HOW IT WORKS", "steps-title": "간단하게, 세 단계면 돼요", "steps-copy": "아기 사진과 원하는 설명을 보내 특별한 순간을 준비해 보세요.",
         "step1-title": "아기 사진을 올려주세요", "step1-copy": "아기 얼굴이 잘 보이는 사진을 최대 세 장까지 올려주세요.",
         "step2-title": "마음에 드는 분위기를 골라요", "step2-copy": "원하는 장면과 옷차림, 배경을 프롬프트로 설명해 주세요.",
         "step3-title": "특별한 돌사진을 간직해요", "step3-copy": "한 장당 $1.99로 필요한 수량을 선택하는 서비스예요.",
+        "faq-title": "자주 묻는 질문", "faq-copy": "첫봄의 AI 돌사진 생성 방식과 데모 이용 조건을 확인해 보세요.",
+        "faq-photos-question": "AI로 아기 돌사진을 어떻게 만드나요?",
+        "faq-photos-answer": "아기 얼굴이 잘 보이는 사진을 최대 3장 올리고, 원하는 의상·배경·분위기를 적어 생성 요청을 보내세요. 생성 결과는 이 브라우저의 사진 보관함에 저장됩니다.",
+        "faq-payment-question": "사진 생성에 실제 결제가 필요한가요?",
+        "faq-payment-answer": "아니요. 현재 결제 화면은 테스트 전용이며 실제 청구는 없습니다. 다만 AI 사진 생성을 요청하면 운영자의 OpenAI API 계정에 사용료가 발생할 수 있습니다.",
+        "faq-privacy-question": "업로드한 아기 사진은 어디로 전송되나요?",
+        "faq-privacy-answer": "사진 생성에 동의하면 선택한 사진과 설명이 OpenAI 이미지 API로 전송됩니다. 생성 결과와 보관 사진은 현재 브라우저에 저장되며, 서버에 보관하지 않습니다.",
+        "faq-hosting-question": "홈페이지에서 바로 AI 사진을 만들 수 있나요?",
+        "faq-hosting-answer": "현재 공개 홈페이지는 정적 미리보기라 AI 생성 API가 포함되어 있지 않습니다. 생성 데모를 실행하려면 README 안내에 따라 Node 서버와 OpenAI API 키를 설정해야 합니다.",
         "reviews-eyebrow": "YOUR STORY", "reviews-title": "이용 후기를 들려주세요", "reviews-copy": "첫봄을 이용한 경험을 별점과 함께 남겨주세요.",
         "review-form-title": "후기 작성하기", "review-name-label": "작성자명", "review-rating-label": "별점",
         "review-rating-5": "★★★★★ · 아주 좋아요", "review-rating-4": "★★★★☆ · 좋아요",
@@ -707,7 +745,7 @@
         "review-saved": "후기가 이 브라우저에 저장되었습니다.", "review-invalid": "작성자명과 후기를 확인해 주세요.",
         "review-storage-error": "후기를 저장하거나 불러오지 못했습니다. 브라우저 저장 공간을 확인해 주세요.",
         "review-date-locale": "ko-KR",
-        "studio-title": "우리 아기만의<br>돌사진 만들기", "studio-copy": "아기 얼굴 사진을 최대 세 장 올리고, 원하는 결과를 프롬프트로 자세히 적어주세요.",
+        "studio-eyebrow": "MAKE A MEMORY", "studio-title": "우리 아기만의<br>돌사진 만들기", "studio-copy": "아기 얼굴 사진을 최대 세 장 올리고, 원하는 결과를 프롬프트로 자세히 적어주세요.",
         "privacy-title": "🔒 사진은 소중하게 다룰게요.", "privacy-copy": "생성 요청 시 선택한 아기 사진과 프롬프트가 OpenAI 이미지 API로 전송됩니다. 생성 결과는 이 브라우저의 사진 보관함에 저장됩니다.",
         "hosting-note": "GitHub Pages 미리보기에서는 AI 사진 생성, 실제 결제, 서버 계정 기능을 제공하지 않습니다. 사진 생성 데모는 README 안내에 따라 Node 서버를 실행해 주세요.",
         "upload-label": "1. 아기 얼굴 사진 올리기", "max-photos": "최대 3장", "upload-title": "사진을 끌어다 놓거나 눌러서 최대 3장 선택",
@@ -751,14 +789,24 @@
       en: {
         title: "FirstBloom | First Birthday Portrait Ideas", description: "Explore first-birthday portrait styles, hanbok colors, and photo ideas to plan a special celebration for your baby's first year.",
         "brand-home": "FirstBloom home", "brand-name": "FirstBloom",
-        "language-label": "Select language", "nav-how": "How it works", "nav-studio": "Create a portrait", "nav-cta": "Get started",
+        "language-label": "Select language", "main-menu": "Main navigation", "nav-how": "How it works", "nav-faq": "FAQ", "nav-studio": "Create a portrait", "nav-cta": "Get started",
+        "hero-eyebrow": "A LITTLE MAGIC FOR THEIR FIRST YEAR",
         "hero-title": "A first birthday<br><em>portrait to treasure</em>", "hero-copy": "Turn up to three favorite baby photos into a keepsake made just for your little one.<br>Describe the look you love—from a classic studio portrait to a storybook scene.",
-        "hero-button": "Create your baby's portrait", "rating-label": "Five-star rating", trust: "Made for the moments you'll want to remember",
+        "hero-button": "Create your baby's portrait", trust: "Made for the moments you'll want to remember",
         "hero-art": "Illustration of a smiling baby in a cozy garden", "floating-title": "Their first trip around the sun", "floating-copy": "A little keepsake, made with love",
-        "steps-title": "A keepsake in three easy steps", "steps-copy": "Bring your favorite photos and your imagination. We'll help you picture the possibilities.",
+        "steps-eyebrow": "HOW IT WORKS", "steps-title": "A keepsake in three easy steps", "steps-copy": "Bring your favorite photos and your imagination. We'll help you picture the possibilities.",
         "step1-title": "Add up to three favorite photos", "step1-copy": "Choose clear photos that show your baby's face from different angles.",
         "step2-title": "Tell us what you're dreaming of", "step2-copy": "Describe the outfit, setting, colors, and feeling you want in your portrait.",
         "step3-title": "Choose how many portraits you want", "step3-copy": "Plan for $1.99 per finished image. No charge is made in this demo.",
+        "faq-title": "Frequently asked questions", "faq-copy": "Learn how FirstBloom's AI portraits work and what to expect from this demo.",
+        "faq-photos-question": "How do I create an AI first-birthday portrait?",
+        "faq-photos-answer": "Upload up to three photos with your baby's face clearly visible, describe the outfit, background, and mood you want, then submit a generation request. Results are saved in this browser's photo library.",
+        "faq-payment-question": "Will I be charged for generating a photo?",
+        "faq-payment-answer": "No. The checkout shown here is for testing and does not charge you. However, generating an AI photo may incur usage fees on the operator's OpenAI API account.",
+        "faq-privacy-question": "Where are my uploaded baby photos sent?",
+        "faq-privacy-answer": "If you consent to image generation, your selected photos and prompt are sent to the OpenAI Images API. Generated and saved photos stay in this browser; they are not stored on our server.",
+        "faq-hosting-question": "Can I generate AI photos directly on this website?",
+        "faq-hosting-answer": "The public website is currently a static preview and does not include the AI generation API. To run the generation demo, configure the Node server and an OpenAI API key as described in the README.",
         "reviews-eyebrow": "YOUR STORY", "reviews-title": "Share your experience", "reviews-copy": "Leave a rating and tell us what you thought of FirstBloom.",
         "review-form-title": "Write a review", "review-name-label": "Your name", "review-rating-label": "Rating",
         "review-rating-5": "★★★★★ · Loved it", "review-rating-4": "★★★★☆ · Liked it",
@@ -771,7 +819,7 @@
         "review-saved": "Your review was saved in this browser.", "review-invalid": "Please check your name and review.",
         "review-storage-error": "We couldn't save or load reviews. Check your browser storage.",
         "review-date-locale": "en-US",
-        "studio-title": "A first-birthday portrait<br>as special as your little one", "studio-copy": "Add up to three reference photos and describe the portrait you'd love to see.",
+        "studio-eyebrow": "MAKE A MEMORY", "studio-title": "A first-birthday portrait<br>as special as your little one", "studio-copy": "Add up to three reference photos and describe the portrait you'd love to see.",
         "privacy-title": "🔒 Your family's photos deserve care.", "privacy-copy": "When you request generation, the selected baby photos and prompt are sent to the OpenAI Images API. Generated results are saved in this browser's photo library.",
         "hosting-note": "The GitHub Pages preview does not include AI image generation, real payments, or server accounts. To try image generation, start the Node server using the README instructions.",
         "upload-label": "1. Add your baby's photos", "max-photos": "Up to 3", "upload-title": "Drop photos here, or click to choose up to 3",
@@ -812,6 +860,81 @@
         "order-title": (quantity, price) => `Generate ${quantity} photo${quantity === "1" ? "" : "s"} · Test total $${price}`,
         genders: { boy: "Boy", girl: "Girl" },
         themes: { "달항아리": "Moon Jar", "햇살 정원": "Garden sunshine", "동화 속 주인공": "Storybook" }
+      },
+      zh: {
+        title: "FirstBloom｜宝宝周岁纪念照与AI写真", description: "上传最多3张宝宝照片，定制周岁纪念写真。了解AI生成流程、照片隐私和测试版使用说明。",
+        "brand-home": "FirstBloom 首页", "brand-name": "FirstBloom",
+        "language-label": "选择语言", "main-menu": "主导航", "nav-how": "使用方法", "nav-faq": "常见问题", "nav-studio": "制作写真", "nav-cta": "开始制作",
+        "hero-eyebrow": "为宝宝的第一个生日增添一点魔法",
+        "hero-title": "为宝宝的<br><em>第一个生日</em><br>留下特别纪念", "hero-copy": "上传最多3张宝宝照片，描述您喜欢的风格。<br>为宝宝定制一张独一无二的周岁纪念写真。",
+        "hero-button": "用宝宝的照片开始制作", trust: "珍藏宝宝人生中的珍贵初见",
+        "hero-art": "在温馨绿色花园中微笑的宝宝插画", "floating-title": "宝宝的第一个春天", "floating-copy": "专属于你们的纪念写真",
+        "steps-eyebrow": "制作流程", "steps-title": "简单三步，留下纪念", "steps-copy": "上传宝宝照片并描述想要的画面，开始制作特别的成长纪念。",
+        "step1-title": "上传宝宝照片", "step1-copy": "最多上传3张能清楚看到宝宝面部的照片。",
+        "step2-title": "选择喜欢的风格", "step2-copy": "描述想要的场景、服装、背景和整体氛围。",
+        "step3-title": "珍藏周岁纪念照", "step3-copy": "可选择生成数量；演示页面显示每张 $1.99 的测试金额，不会实际扣款。",
+        "faq-title": "常见问题", "faq-copy": "了解 FirstBloom AI 周岁写真生成方式与演示版使用说明。",
+        "faq-photos-question": "如何使用 AI 制作宝宝周岁写真？",
+        "faq-photos-answer": "上传最多3张面部清晰的宝宝照片，描述喜欢的服装、背景和氛围，然后提交生成请求。生成的照片会保存在当前浏览器的照片库中。",
+        "faq-payment-question": "生成照片会产生实际付款吗？",
+        "faq-payment-answer": "不会。当前结账页面仅用于测试，不会向用户实际收费。不过，生成 AI 照片可能会产生 OpenAI API 使用费用，由服务运营者的账户承担。",
+        "faq-privacy-question": "上传的宝宝照片会发送到哪里？",
+        "faq-privacy-answer": "同意生成照片后，所选照片和文字描述会发送至 OpenAI Images API。生成结果和保存的照片留在当前浏览器中，不会存储在本网站服务器上。",
+        "faq-hosting-question": "可以直接在这个网站生成 AI 照片吗？",
+        "faq-hosting-answer": "目前公开网站是静态预览，不包含 AI 图片生成 API。若要运行生成演示，请按照 README 配置 Node 服务器和 OpenAI API 密钥。",
+        "reviews-eyebrow": "你的故事", "reviews-title": "分享使用体验", "reviews-copy": "为 FirstBloom 评分并分享你的使用感受。",
+        "review-form-title": "撰写评价", "review-name-label": "姓名", "review-rating-label": "评分",
+        "review-rating-5": "★★★★★ · 非常喜欢", "review-rating-4": "★★★★☆ · 喜欢",
+        "review-rating-3": "★★★☆☆ · 一般", "review-rating-2": "★★☆☆☆ · 不太满意",
+        "review-rating-1": "★☆☆☆☆ · 需要改进", "review-text-label": "使用评价",
+        "review-placeholder": "请分享您的使用体验（最多500字）。",
+        "review-privacy": "评价和姓名仅保存在当前浏览器中，不会分享给其他访客。",
+        "review-submit": "提交评价", "reviews-list-title": "保存在此浏览器中的评价",
+        "reviews-empty": "还没有评价，欢迎分享第一条体验。",
+        "review-saved": "评价已保存在当前浏览器中。", "review-invalid": "请检查姓名和评价内容。",
+        "review-storage-error": "无法保存或读取评价，请检查浏览器存储空间。",
+        "review-date-locale": "zh-CN",
+        "studio-eyebrow": "定格珍贵回忆", "studio-title": "为宝宝定制<br>专属周岁写真", "studio-copy": "最多上传3张宝宝照片，并详细描述想要的生成效果。",
+        "privacy-title": "🔒 我们会妥善处理您的家庭照片。", "privacy-copy": "提交生成请求后，所选宝宝照片和文字描述会发送至 OpenAI Images API。生成结果保存在当前浏览器的照片库中。",
+        "hosting-note": "GitHub Pages 预览版不提供 AI 图片生成、真实付款或服务器账户功能。请按照 README 中的说明运行 Node 服务器以体验生成演示。",
+        "upload-label": "1. 上传宝宝面部照片", "max-photos": "最多3张", "upload-title": "拖放照片到此处，或点击选择最多3张",
+        "upload-help": "JPG、PNG、WEBP · 每张最大15MB", "photo-input": "选择宝宝照片", "photo-grid": "已选照片",
+        "notice-label": "照片提示与生成说明", "notice-title": "开始制作前请了解",
+        "notice-variation": "每次生成的 AI 照片可能略有不同。如果效果不符合预期，可以补充描述并再次调整生成要求。",
+        "notice-frontal": "<strong>拍摄角度和表情会影响生成效果，建议使用正面照片。</strong>",
+        "photo-tips-title": "想获得更好的效果，请选择：",
+        "photo-tip-face": "面部清晰、占画面较大的照片", "photo-tip-light": "明亮的自然光照片",
+        "photo-tip-clear": "眼睛和面部没有遮挡的照片", "photo-tip-steady": "清晰、不模糊的照片",
+        "gender-label": "2. 选择宝宝性别", "gender-group": "选择宝宝性别", "gender-boy": "男宝宝", "gender-girl": "女宝宝",
+        "hanbok-style-label": "月亮罐韩服风格", "hanbok-saekdong": "彩色条纹（男宝宝）", "hanbok-pastel": "柔和粉彩",
+        "prompt-label": "3. 描述想要的写真", "prompt-placeholder": "例如：宝宝穿着象牙白韩服，坐在阳光温暖的花园里拍摄周岁照。奶油色背景、自然光，氛围温柔经典。",
+        "prompt-help": "请描述喜欢的服装、背景、色彩和氛围，最多1000字。", "theme-label": "4. 选择参考风格（选填）",
+        "theme-group": "选择周岁写真风格", "theme-moonjar": "月亮罐", "theme-garden": "阳光花园", "theme-story": "童话主角",
+        "quantity-label": "生成照片数量", "quantity-aria": "生成照片数量", "quantity-1": "1张", "quantity-2": "2张", "quantity-3": "3张",
+        "price-label": "每张 $1.99 · 测试金额", "demo-note": "测试结账 · AI 生成会产生 OpenAI API 使用费用。",
+        "ai-consent": "我同意将所选宝宝照片和文字描述发送至 OpenAI 以生成图片。API 使用费由运营者账户承担；本测试结账不会实际扣款。",
+        "order-button": "生成照片", "result-title": "正在生成照片", "result-message": "正在为您准备纪念写真。",
+        "closing-title": "宝宝的第一个生日，值得长久珍藏", "closing-copy": "为宝宝最可爱的瞬间留下一份纪念。",
+        "closing-button": "上传照片开始", footer: "珍藏那些终将成为家庭故事的小小瞬间 · © 2026 FirstBloom",
+        "error-count": "最多可选择3张照片。", "error-type": "请选择 JPG、PNG 或 WEBP 格式的照片。",
+        "error-size": "每张照片不得超过15MB。", "error-empty-photo": "请先上传至少一张宝宝照片。",
+        "error-prompt": "请描述您想要的写真效果。", "error-gender": "请选择宝宝性别。", "remove-photo": "移除照片",
+        "error-consent": "开始生成前，请同意将照片发送至 OpenAI。",
+        "ai-not-configured": "服务器尚未配置 OpenAI API 密钥，请检查 .env 设置。",
+        "server-unavailable": "无法连接 AI 服务器。请按照设置说明启动 Node 服务器后重试。",
+        "static-hosting-only": "此 GitHub Pages 网站仅为静态预览，不包含图片生成服务器。请按照 README 说明启动 Node 服务器。",
+        "invalid_api_key": "请检查服务器上配置的 OpenAI API 密钥。",
+        "model_access_denied": "请确认 OpenAI 账户有权使用该图片模型。",
+        "provider_rate_limited": "请检查 OpenAI 请求限额或可用余额后重试。",
+        "generation_failed": "照片生成失败，请稍后重试。",
+        "incomplete_generation": "未能生成所需数量的照片，请重试。",
+        "generation_timed_out": "照片生成超时，请稍后重试。",
+        "generation_limit": "当前请求较多，请在1分钟后重试。",
+        "photos-sent": "正在将所选照片和描述发送至 OpenAI Images API。",
+        "generation-saved": "照片生成完成，已保存至此浏览器的个人页面照片库。",
+        "order-title": (quantity, price) => `生成${quantity}张照片 · 测试金额 $${price}`,
+        genders: { boy: "男宝宝", girl: "女宝宝" },
+        themes: { "달항아리": "月亮罐", "햇살 정원": "阳光花园", "동화 속 주인공": "童话主角" }
       }
     };
 
@@ -867,6 +990,32 @@
         "payment-saved": "Test purchase complete. You were not charged. Upload finished photos from My Page to store them.",
         "request-saved": "Your request was saved.", "saved-photo-label": "Finished photo",
         "remove-account-data": "You have been logged out in this browser."
+      },
+      zh: {
+        "account-sign-in": "登录 / 注册", "account-my-page": "个人页面", "account-eyebrow": "MY FIRSTBLOOM", "account-title": "个人页面",
+        "sign-out": "退出登录", "credits-label": "可保存照片数", "saved-label": "已保存照片",
+        "orders-title": "测试购买记录", "library-title": "我的照片库",
+        "library-hint": "可根据测试购买获得的存储名额上传成品照片。JPG、PNG、WEBP · 每张最大15MB。照片仅保存在当前浏览器中；删除后可重新使用该名额。",
+        "upload-finished": "添加成品照片", "local-only-note": "演示账户和照片仅保存在此设备的当前浏览器中。清除浏览器数据或更换设备后无法恢复；本演示不提供真实付款或服务器身份验证。",
+        "sign-up-title": "注册账户", "login-title": "登录", "name-label": "姓名",
+        "email-label": "电子邮箱", "password-label": "密码（至少8个字符）", "sign-up-submit": "注册",
+        "login-submit": "登录", "switch-to-login": "登录", "switch-to-sign-up": "注册",
+        "existing-account": "已有账户？", "new-account": "第一次使用 FirstBloom？", "close": "关闭",
+        "empty-orders": "暂无测试购买记录。", "empty-photos": "暂无已保存照片。",
+        "order-summary": (date, qty) => `测试购买 · ${date} · $${(qty * 1.99).toFixed(2)}`,
+        "order-slots": (used, total) => `已使用 ${used}/${total} 个照片名额`,
+        "download": "下载", "delete-photo": "删除", "confirm-delete": "确定从照片库中删除这张照片吗？",
+        "view-library": "查看个人页面照片库", "retry-generation": "重新生成照片",
+        "credits-needed": "请先在制作写真页面完成测试购买。", "upload-limit": "照片数量超出可用存储名额。",
+        "file-type-error": "仅支持 JPG、PNG 和 WEBP 格式照片。", "file-size-error": "每张照片不得超过15MB。",
+        "saved-photo": "照片已保存至照片库。", "storage-error": "无法访问浏览器存储空间，请检查后重试。",
+        "account-storage-error": "无法保存账户信息，请检查浏览器存储空间。",
+        "duplicate-email": "该电子邮箱已注册，请登录。", "invalid-login": "电子邮箱或密码不正确。",
+        "password-error": "请输入至少8个字符的密码。", "name-error": "请输入姓名。",
+        "auth-required": "完成测试购买前，请先注册或登录。",
+        "payment-saved": "测试购买已完成，不会实际扣款。您可以在个人页面上传成品照片并保存。",
+        "request-saved": "请求已保存。", "saved-photo-label": "成品照片",
+        "remove-account-data": "已在此浏览器中退出登录。"
       }
     };
 
@@ -1114,6 +1263,7 @@
     }
 
     function translatePage(language) {
+      if (!Object.hasOwn(translations, language)) language = "ko";
       currentLanguage = language;
       const strings = translations[language];
       try {
@@ -1121,13 +1271,58 @@
       } catch {
         // Language selection still works when browser storage is unavailable.
       }
-      document.documentElement.lang = language;
+      const locale = language === "zh" ? "zh-CN" : language;
+      const localizedUrl = new URL(window.location.href);
+      localizedUrl.searchParams.delete("lang");
+      if (language !== "ko") localizedUrl.searchParams.set("lang", language);
+      if (localizedUrl.href !== window.location.href) {
+        window.history.replaceState(null, "", localizedUrl);
+      }
+      const canonicalUrl = new URL("https://babyphoto-v1.pages.dev/");
+      if (language !== "ko") canonicalUrl.searchParams.set("lang", language);
+      document.querySelector('link[rel="canonical"]').href = canonicalUrl.href;
+      document.documentElement.lang = locale;
       document.title = strings.title;
       document.querySelector('meta[name="description"]').content = strings.description;
       document.querySelector('meta[property="og:title"]').content = strings.title;
       document.querySelector('meta[property="og:description"]').content = strings.description;
+      document.querySelector('meta[property="og:site_name"]').content = strings["brand-name"];
+      document.querySelector('meta[property="og:url"]').content = canonicalUrl.href;
+      document.querySelector('meta[property="og:locale"]').content = { ko: "ko_KR", en: "en_US", zh: "zh_CN" }[language];
       document.querySelector('meta[name="twitter:title"]').content = strings.title;
       document.querySelector('meta[name="twitter:description"]').content = strings.description;
+      document.querySelector("#page-schema").textContent = JSON.stringify({
+        "@context": "https://schema.org",
+        "@graph": [
+          {
+            "@type": "WebPage",
+            "@id": `${canonicalUrl.href}#webpage`,
+            "url": canonicalUrl.href,
+            "name": strings.title,
+            "description": strings.description,
+            "inLanguage": locale,
+            "dateModified": "2026-10-14",
+            "isPartOf": { "@id": "https://babyphoto-v1.pages.dev/#website" },
+            "about": { "@id": "https://babyphoto-v1.pages.dev/#organization" }
+          },
+          {
+            "@type": "FAQPage",
+            "@id": `${canonicalUrl.href}#faq`,
+            "url": `${canonicalUrl.href}#faq`,
+            "inLanguage": locale,
+            "mainEntity": [
+              ["faq-photos-question", "faq-photos-answer"],
+              ["faq-payment-question", "faq-payment-answer"],
+              ["faq-privacy-question", "faq-privacy-answer"],
+              ["faq-hosting-question", "faq-hosting-answer"]
+            ].map(([question, answer]) => ({
+              "@type": "Question",
+              "name": strings[question],
+              "acceptedAnswer": { "@type": "Answer", "text": strings[answer] }
+            }))
+          }
+        ]
+      });
       document.querySelectorAll("[data-i18n]").forEach((element) => {
         const value = strings[element.dataset.i18n];
         if (value !== undefined) element.innerHTML = value;
@@ -1264,7 +1459,9 @@
         card.className = "photo-card";
         const image = document.createElement("img");
         image.src = url;
-        image.alt = currentLanguage === "en" ? `Selected baby photo ${index + 1}` : `선택한 아기 사진 ${index + 1}`;
+        image.alt = currentLanguage === "zh"
+          ? `已选宝宝照片 ${index + 1}`
+          : currentLanguage === "en" ? `Selected baby photo ${index + 1}` : `선택한 아기 사진 ${index + 1}`;
         const name = document.createElement("div");
         name.className = "photo-name";
         name.textContent = file.name;
@@ -1364,7 +1561,7 @@
         errorMessage.textContent = error.message || accountText("account-storage-error");
       }
     });
-    document.querySelectorAll('a[href="#studio"], a[href="#how"]').forEach((link) => {
+    document.querySelectorAll('a[href="#studio"], a[href="#how"], a[href="#faq"]').forEach((link) => {
       link.addEventListener("click", () => {
         if (!accountPage.hidden) toggleAccountPage(false);
       });
@@ -1679,9 +1876,14 @@
         return null;
       }
     })();
-    const preferredLanguage = savedLanguage === "ko" || savedLanguage === "en"
-      ? savedLanguage
-      : (navigator.languages || [navigator.language]).some((language) => language.toLowerCase().startsWith("en")) ? "en" : "ko";
+    const requestedLanguage = new URLSearchParams(window.location.search).get("lang");
+    const preferredLanguage = Object.hasOwn(translations, requestedLanguage)
+      ? requestedLanguage
+      : savedLanguage === "ko" || savedLanguage === "en" || savedLanguage === "zh"
+        ? savedLanguage
+        : (navigator.languages || [navigator.language]).some((language) => language.toLowerCase().startsWith("zh"))
+          ? "zh"
+          : (navigator.languages || [navigator.language]).some((language) => language.toLowerCase().startsWith("en")) ? "en" : "ko";
     translatePage(preferredLanguage);
 
     document.querySelector("#create-button").addEventListener("click", async () => {
